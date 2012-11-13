@@ -1,0 +1,6 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =4
+let g:netrw_dirhist_1='/code/test_layout'
+let g:netrw_dirhist_2='/home/vim/jobs/mcm'
+let g:netrw_dirhist_3='/code/code/linuxzen/water'
+let g:netrw_dirhist_4='/home/vim/jobs/udc/web/service'
