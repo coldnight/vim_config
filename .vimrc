@@ -78,14 +78,60 @@ set expandtab                   " 使用spcae代替tab
 set tabstop=4                   " tab宽度
 set shiftwidth=4                " tab自动缩进宽度
 set cursorline                  " 设置高亮当前行
-"set fdm=indent                 " 设置代码折叠
-"set fdc=4                      " 设置代码折叠宽度为4个字符
 set nocp                        " 不设置 'compatible'
 set guifont=Monaco\ 10          " 设置gui英文字体
 set guifontwide=WenQuanYi\ Zen\ Hei\ 10 " 设置gui等宽字体
+let mapleader=','               " 设置主键为,
+let g:ctags_statusline=1
 "set guifont=Bitstream_Vera_Sans_Mono:h10:cANSI
 "set co=130                     " 通过设置列行数来控制窗口的大小
 "set lines=100
+"set fdm=indent                 " 设置代码折叠
+"set fdc=4                      " 设置代码折叠宽度为4个字符
+
+if has('cmdline_info')
+    set ruler                   " show the ruler
+    set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%) " a ruler on steroids
+    set showcmd                 " show partial commands in status line and
+                                " selected characters/lines in visual mode
+endif
+
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""
+" => key map
+""""""""""""""""""""""""""""""""""""""""""""""""
+" 定义命令别名
+cmap W w
+cmap WQ wq
+cmap wq1 wq!
+cmap qa1 qa!
+cmap q1 q!
+
+map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR> " C-\ - Open the definition in a new tab
+
+nmap <Leader>cs :nohl <CR>      " 清除高亮
+
+"""""""""""""""""""""""""""""""""""""""""""""""
+" => VCS key map
+"""""""""""""""""""""""""""""""""""""""""""""""
+nmap <leader>vs :VCSStatus<CR>
+nmap <leader>vc :VCSCommit<CR>
+nmap <leader>vb :VCSBlame<CR>
+nmap <leader>va :VCSAdd<CR>
+nmap <leader>vd :VCSVimDiff<CR>
+nmap <leader>vl :VCSLog<CR>
+nmap <leader>vu :VCSUpdate<CR>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""
+" => statusline
+"""""""""""""""""""""""""""""""""""""""""""""""""
+set laststatus=2
+let g:Powerline_symbols='unicode'
+
+"""""""""""""""""""""""""""""""""""""""""""""""""
+" => 配色方案
+"""""""""""""""""""""""""""""""""""""""""""""""""
 if (has("gui_running"))
     "图形界面下的设置
     set wrap
@@ -100,19 +146,6 @@ else
     set t_Co=256
 endif
 colorscheme distinguished       " 设置配色方案
-
-" 设置状态栏
-if has('statusline')
-    set laststatus=2
-    set statusline=%<%f
-    set statusline+=%w%h%m%r
-    set statusline+=%{fugitive#statusline()} "Git
-    "set statusline+=\ [%{getcwd()}]          " current dir
-    set statusline+=\ [%{&ff}/%Y]            " filetype
-    set statusline+=\ [A=\%03.3b/H=\%02.2B] " ASCII / Hexadecimal value of char
-    set statusline+=%=%-14.(%l,%c%V%)\ %p%%\ %L  " Right aligned file nav info
-endif
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " =>Python
@@ -188,15 +221,9 @@ map <silent> <F2> :if &guioptions =~# 'T' <Bar>
 """"""""""""""""""""""""""""""
 " => Calendar
 """""""""""""""""""""""""""""""
-"let g:calendar_diary='E:\Diary'
-"map <c-d> :Calendar<cr>
-
-"map <F11> :Voom<cr>
-
-""""""""""""""""""""""""""""""
-" => 自定义
-"""""""""""""""""""""""""""""""
-"au BufNewFile,BufRead *.nt set filetype=nt
+let g:calendar_diary=$HOME.'/.Diary'
+map <c-d> :Calendar<cr>
+map <F8> :Voom<cr>
 
 """""""""""""""""""""""
 "Author
@@ -288,5 +315,7 @@ Bundle "MarcWeber/vim-addon-mw-utils"
 Bundle "tomtom/tlib_vim"
 Bundle "honza/snipmate-snippets"
 Bundle "garbas/vim-snipmate"
+Bundle "Lokaltog/vim-powerline"
+Bundle "drakeguan/vim-vcscommand"
 filetype indent plugin on
-let g:snippets_dir='~/.vim/snippets'
+"let g:snippets_dir='~/.vim/snippets'
