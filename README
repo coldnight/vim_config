@@ -2,5 +2,5 @@ git clone git://gitcafe.com/pythoner/vim_conf.git ~/.vim
 mkdir ~/.vim/bundle
 git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
 mv ~/.vim/.vimrc ~/
-打开Vim
+打开Vim,执行末行命令
 :BundleInstall
