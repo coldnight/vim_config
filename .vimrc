@@ -181,6 +181,48 @@ map <F5> :w<cr>
 map <F5> :call CheckPythonSyntax()<cr>
 
 
+"""""""""""""""""""""""""""""""
+" => Pytho mode
+"""""""""""""""""""""""""""""""
+let g:pymode_lint_write = 0
+let g:pymode_run_key = 'R'
+let g:pymode_doc = 1
+let g:pymode_doc_key = 'K'
+let g:pymode_run = 1
+let g:pymode_run_key = '<Leader>r'
+let g:pymode_folding = 0
+let g:pymode_lint = 1
+let g:pymode_lint_checker="pyflakes,pep8,mccabe"
+let g:pymode_lint_onfly=0
+let g:pymode_lint_config=$HOME."/.pylintrc"
+let g:pymode_lint_message=1
+let g:pymode_lint_jump = 0
+let g:pymode_lint_hold = 0
+let g:pymode_lint_signs = 1
+let g:pymode_lint_mccabe_complexity = 8
+let g:pymode_lint_minheight = 3
+let g:pymode_lint_maxheight = 1
+let g:pymode_rope = 1
+let g:pymode_rope_enable_autoimport = 1
+let g:pymode_rope_autoimport_generate = 1
+let g:pymode_rope_autoimport_underlineds = 0
+let g:pymode_rope_codeassist_maxfixes = 10
+let g:pymode_rope_sorted_completions = 1
+let g:pymode_rope_extended_complete = 1
+let g:pymode_rope_autoimport_modules = ["os","shutil","datetime"]
+let g:pymode_rope_confirm_saving = 1
+let g:pymode_rope_global_prefix = "<C-x>p"
+let g:pymode_rope_local_prefix = "<C-c>r"
+let g:pymode_rope_vim_completion = 1
+let g:pymode_rope_guess_project = 1
+let g:pymode_rope_goto_def_newwin = ""
+let g:pymode_rope_always_show_complete_menu = 0
+let g:pymode_motion = 1
+let g:pymode_syntax = 1
+let g:pymode_syntax_all = 1
+let g:pymode_rope_vim_completion = 1
+
+
 """"""""""""""""""""""""""""""
 " => JavaScript section
 """""""""""""""""""""""""""""""
@@ -234,11 +276,22 @@ let g:vimrc_homepage='http://www.linuxzen.com/'
 nmap <F4> :AuthorInfoDetect<cr>
 
 
-"设置对齐线的宽度
+"设置对齐线的宽度, <Leader> ig启动
 let g:indent_guides_guide_size=1
 
+""""""""""""""""""""""""""""""""""""""""
+" => 目录树
+""""""""""""""""""""""""""""""""""""""""
 map <C-e> :NERDTreeToggle<CR>:NERDTreeMirror<CR>
+map <silent> <F12> :NERDTreeToggle <CR>
 let NERDTreeIgnore=['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
+let g:NERDTree_title="Tree"
+" 当只声nerdtree一个窗口时关闭vim
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+
+""""""""""""""""""""""""""""""""""""""""
+" => TagList
+""""""""""""""""""""""""""""""""""""""""
 map <F3> :silent! Tlist<CR>
 let Tlist_Ctags_Cmd='ctags'
 let Tlist_Use_Right_Window=1
@@ -247,8 +300,8 @@ let Tlist_Exit_OnlyWindow=1
 let Tlist_Process_File_Always=0
 let Tlist_Inc_Winwidth=0
 let Tlist_Exit_OnlyWindow=1
-map <silent> <F12> :NERDTreeToggle <CR>
 autocmd FileType c,cpp,java,php,js,python,twig,xml,yml autocmd BufWritePre <buffer> :call setline(1,map(getline(1,"$"),'substitute(v:val,"\\s\\+$","","")'))
+
 
 """""""""""""""""""""""""""""""""""""""""
 " complete
@@ -259,7 +312,7 @@ let g:neocomplcache_enable_cmel_case_completion=1
 let g:neocomplcache_enable_underbar_completion=1
 let g:neocomplcache_min_syntax_length=3  " 3个字符开始补全
 let g:neocomplacche_lock_buffer_name_pattern='\*ku\*'
-let g:neocomplcache_enable_auto_select=0
+let g:neocomplcache_enable_auto_select=1
 let g:neocomplcache_enable_quick_match=1
 let g:neocomplcache_dictionary_filetype_lists={
     \ 'default':'',
@@ -285,12 +338,12 @@ inoremap <expr><C-z>     neocomplcache#undo_completion()
 inoremap <expr><C-l>     neocomplcache#complete_common_string()
 inoremap <expr><CR> pumvisible() ? neocomplcache#close_popup() : "\<CR>"
 "inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <expr><space>  pumvisible() ? neocomplcache#close_popup() . "\<SPACE>" : "\<SPACE>"
+"inoremap <expr><space>  pumvisible() ? neocomplcache#close_popup() . "\<SPACE>" : "\<SPACE>"
 inoremap <expr><C-h> neocomplcache#close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplcache#close_popup()."\<C-h>"
+"inoremap <expr><BS> neocomplcache#close_popup()."\<C-h>"
 inoremap <expr><C-y>  neocomplcache#close_popup()
 inoremap <expr><C-e>  neocomplcache#cancel_popup()
-inoremap <expr><Enter> pumvisible() ? "\<C-Y>" : "\<Enter>"
+inoremap <expr><S-Enter> pumvisible() ? "\<C-Y>" : "\<Enter>"
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
 autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
@@ -304,8 +357,11 @@ let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
 let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
 let g:neocomplcache_omni_patterns.c = '\%(\.\|->\)\h\w*'
 let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
-let g:neocomplcache_enable_auto_select=1
 
+
+"""""""""""""""""""""""""""""""""""""""""""""""
+" => Vim插件管理
+"""""""""""""""""""""""""""""""""""""""""""""""
 set nocompatible
 filetype off
 set rtp+=~/.vim/bundle/vundle
@@ -315,7 +371,26 @@ Bundle "MarcWeber/vim-addon-mw-utils"
 Bundle "tomtom/tlib_vim"
 Bundle "honza/snipmate-snippets"
 Bundle "garbas/vim-snipmate"
+Bundle "Shougo/neocomplcache"
 Bundle "Lokaltog/vim-powerline"
 Bundle "drakeguan/vim-vcscommand"
+Bundle "vim-scripts/TabBar"
+Bundle "scrooloose/nerdtree"
+Bundle "pix/vim-taglist"
+Bundle "vim-scripts/DrawIt"
+Bundle "vim-scripts/calendar.vim--Matsumoto"
+Bundle "vim-scripts/Python-mode-klen"
+Bundle "nathanaelkane/vim-indent-guides"
+Bundle "clones/vim-cecutil"
+Bundle "tpope/vim-fugitive"
+Bundle "vim-scripts/pydoc.vim"
+Bundle "vim-scripts/VOoM"
+Bundle "mbriggs/mark.vim"
+Bundle "c9s/bufexplorer"
+Bundle "vim-scripts/qiushibaike"
+Bundle "vim-scripts/AuthorInfo"
+Bundle "jnwhiteh/vim-golang"
+Bundle "kevinw/pyflakes-vim"
+
 filetype indent plugin on
 "let g:snippets_dir='~/.vim/snippets'
