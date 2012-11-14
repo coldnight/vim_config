@@ -1,9 +1,11 @@
 set nocompatible
 source $VIMRUNTIME/vimrc_example.vim
-"source $VIMRUNTIME/mswin.vim
+source $VIMRUNTIME/delmenu.vim
+source $VIMRUNTIME/menu.vim
+"source $VIMRUNTIME/mswin.vim   " 启动Ctrl-v/c 复制粘贴
 behave mswin
 
-set diffexpr=MyDiff()
+
 function MyDiff()
   let opt = '-a --binary '
   if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
@@ -29,123 +31,88 @@ function MyDiff()
 endfunction
 
 
-
-
-
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " =>常规
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 设置语法高亮
-syntax on
-" 
+syntax on                      " 设置语法高亮
 set magic
-" 显示行号
-set nu
-" 设置自动缩进
-set ai
-" 打开状态栏标尺
-set ruler
-" 覆盖文件时不备份
-set nobackup
-" 设置命令历史
-set history=1000
-" 当文件被改动时自动加载
-set autoread
-" 当vimrc改动时，自动加载
-autocmd! bufwritepost vimrc source $VIM\_vimrc
-" 允许使用插件
-filetype plugin on
-filetype indent on
-
-
-" 去掉错误提示音
-set noeb
-
-" 使用utf8打开文件
-set fileencoding=utf8
-
-" 设置显示编码
-set encoding=utf8
-
-" 设置console信息编码
-language messages zh_CN.utf-8
-
-"解决右键菜单乱码
-set imcmdline
-source $VIMRUNTIME/delmenu.vim
-source $VIMRUNTIME/menu.vim
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" =>快捷键设置
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"映射Crtl+e新建标签
-map <c-e> :tabnew <cr>
-" 映射Crtl+n切换到写一个标签
-map <c-n> :tabnext<cr> 
- 
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" =>用户接口
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 设置光标具上/下多少行是屏幕滚动
-set so=2
-set wildmenu "开启WiLd菜单
-set cmdheight=2 "设置命令行的高度
-set hid "改变缓冲区（不保存）
-" 不显示错误声音
-set noerrorbells
+set nu                         " 显示行号
+set ai                         " 设置自动缩进
+set ruler                      " 打开状态栏标尺
+set nobackup                   " 覆盖文件时不备份
+set history=1000               " 设置命令历史
+set autoread                   " 当文件被改动时自动加载
+autocmd! bufwritepost vimrc source ~/.vimrc  " 当vimrc改动时，自动加载
+set imcmdline                  "解决右键菜单乱码
+set diffexpr=MyDiff()
+set backspace=indent,eol,start " 更改退格键动作
+set listchars=tab:>-,trail:-,extends:#,nbsp:- " 显示空白和制表符
+set cuc                        " 显示纵向对齐线
+set selection=inclusive        " 将光标所在位置也作为被选择范围
+set wildmenu                   " 在终端下使用一个漂亮的菜单显示补全
+set wildmode=list:longest,full " 设置普全菜单模式
+set whichwrap=b,s,h,l,<,>,[,]  " 当遇到这些字符时折行
+set scrolljump=5
+set scrolloff=3                " 设置光标具上/下多少行是屏幕滚动
+set gdefault                   " 改变s命令状态,设置为全部替换
+set list
+set ignorecase                  " 搜索时呼略大小写
+set hlsearch                    " 高亮搜索项
+set incsearch                   " 当输入时就搜索
+set showmatch                   " show matching brackets/parenthesis
+set foldenable
+set autoindent                  " 设置自动缩进
+set smarttab                    " 设置灵巧的tab,tab被替换成空格时,删除将删除整个被替换成tab的空格
+set smartindent                 " 设置灵巧的缩进
+set tags=~/.tags/tags           " 设置ctags目录
+set cmdheight=2                 "设置命令行的高度
+set hid                         "改变缓冲区（不保存）
+set noerrorbells                " 不显示错误声音
 set novisualbell
 set t_vb=
+set fileencoding=utf8           " 使用utf8打开文件
+set encoding=utf8               " 设置显示编码
+language messages zh_CN.utf-8   " 设置console信息编码
 set tm=500
-" 搜索时高亮显示被找到的文本
-set hlsearch
-"使用spcae代替tab
-set expandtab
-" tab宽度
-set tabstop=4
-" tab自动缩进宽度
-set shiftwidth=4
-" 设置代码折叠
-"set fdm=indent
-" 设置代码折叠宽度为4个字符
-"set fdc=4
-
-" 不设置 'compatible'
-set nocp
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" =>颜色和字体
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 设置编码
-set fenc=utf-8
-" 设置英文字体
-set guifont=Monaco\ 10
-
-" 设置等宽字体
-set guifontwide=WenQuanYi\ Zen\ Hei\ 10
+set expandtab                   " 使用spcae代替tab
+set tabstop=4                   " tab宽度
+set shiftwidth=4                " tab自动缩进宽度
+set cursorline                  " 设置高亮当前行
+"set fdm=indent                 " 设置代码折叠
+"set fdc=4                      " 设置代码折叠宽度为4个字符
+set nocp                        " 不设置 'compatible'
+set guifont=Monaco\ 10          " 设置gui英文字体
+set guifontwide=WenQuanYi\ Zen\ Hei\ 10 " 设置gui等宽字体
 "set guifont=Bitstream_Vera_Sans_Mono:h10:cANSI
-" 设置配色方案
-"colorscheme navajo 
-"colorscheme darkblue
-" 通过设置列行数来控制窗口的大小
-"set co=130
+"set co=130                     " 通过设置列行数来控制窗口的大小
 "set lines=100
-" 设置折行
 if (has("gui_running"))
-	"图形界面下的设置
-	set wrap
-	"set guioptions+=b
-	set background=dark
+    "图形界面下的设置
+    set wrap
+    "set guioptions+=b
+    set background=dark
     colorscheme solarized
     "设置初始宽度
     set columns=95 lines=40
 else
-	"字符界面的下跌设置
-	set wrap
-	set t_Co=256
-	colorschem darkburn
+    "字符界面的下跌设置
+    set wrap
+    set t_Co=256
 endif
-set cursorline
+colorscheme distinguished       " 设置配色方案
+
+" 设置状态栏
+if has('statusline')
+    set laststatus=2
+    set statusline=%<%f
+    set statusline+=%w%h%m%r
+    set statusline+=%{fugitive#statusline()} "Git
+    "set statusline+=\ [%{getcwd()}]          " current dir
+    set statusline+=\ [%{&ff}/%Y]            " filetype
+    set statusline+=\ [A=\%03.3b/H=\%02.2B] " ASCII / Hexadecimal value of char
+    set statusline+=%=%-14.(%l,%c%V%)\ %p%%\ %L  " Right aligned file nav info
+endif
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " =>Python
@@ -254,37 +221,63 @@ let Tlist_Process_File_Always=0
 let Tlist_Inc_Winwidth=0
 let Tlist_Exit_OnlyWindow=1
 map <silent> <F12> :NERDTreeToggle <CR>
-
-if has('statusline')
-    set laststatus=2
-    set statusline=%<%f
-    set statusline+=%w%h%m%r
-    set statusline+=%{fugitive#statusline()} "Git
-    "set statusline+=\ [%{getcwd()}]          " current dir
-    set statusline+=\ [%{&ff}/%Y]            " filetype
-    set statusline+=\ [A=\%03.3b/H=\%02.2B] " ASCII / Hexadecimal value of char
-    set statusline+=%=%-14.(%l,%c%V%)\ %p%%\ %L  " Right aligned file nav info
-endif
-
-set listchars=tab:>-,trail:-,extends:#,nbsp:-
-
-set backspace=indent,eol,start
-set wildmenu
-set wildmode=list:longest,full
-set whichwrap=b,s,h,l,<,>,[,]
-set scrolljump=5
-set scrolloff=3
-set gdefault
-set list
-set ignorecase                  " case insensitive search
-set hlsearch                    " highlight search terms
-set incsearch                   " find as you type search
-set showmatch                   " show matching brackets/parenthesis
-set foldenable
-set autoindent                  " indent at the same level of the previous line
 autocmd FileType c,cpp,java,php,js,python,twig,xml,yml autocmd BufWritePre <buffer> :call setline(1,map(getline(1,"$"),'substitute(v:val,"\\s\\+$","","")'))
 
-set tags=~/.tags/tags
+"""""""""""""""""""""""""""""""""""""""""
+" complete
+"""""""""""""""""""""""""""""""""""""""""
+let g:neocomplcache_enable_at_startup=1  " 自动加载neocomplcache
+let g:neocomplcache_enable_samrt_case=1  " 启动灵巧补全
+let g:neocomplcache_enable_cmel_case_completion=1
+let g:neocomplcache_enable_underbar_completion=1
+let g:neocomplcache_min_syntax_length=3  " 3个字符开始补全
+let g:neocomplacche_lock_buffer_name_pattern='\*ku\*'
+let g:neocomplcache_enable_auto_select=0
+let g:neocomplcache_enable_quick_match=1
+let g:neocomplcache_dictionary_filetype_lists={
+    \ 'default':'',
+    \ 'vimshell':$HOME.'/.vimshell_hist',
+    \ 'scheme':$HOME.'/.gosh_completions',
+    \ 'css': $HOME.'/.vim/dict/css.dic',
+    \ 'php': $HOME.'/.vim/dict/php.dic',
+    \ 'javascript':$HOME.'/.vim/dict/js.dic'
+    \ }
+
+let g:neocomplcache_snippets_dir=$HOME.'.vim/snippets'
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<TAB>"
+inoremap <expr><C-TAB> pumvisible() ? "\<C-p>" : "\<TAB>"
+
+if !exists('g:neocomplcache_keywrod_patterns')
+    let g:neocomplcache_keyword_patterns = {}
+endif
+let g:neocomplcache_keyword_patterns['default']='\h\w*'
+imap <C-k>     <Plug>(neocomplcache_snippets_expand)
+smap <C-k>     <Plug>(neocomplcache_snippets_expand)
+inoremap <expr><C-g>     neocomplcache#undo_completion()
+inoremap <expr><C-z>     neocomplcache#undo_completion()
+inoremap <expr><C-l>     neocomplcache#complete_common_string()
+inoremap <expr><CR> pumvisible() ? neocomplcache#close_popup() : "\<CR>"
+"inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <expr><space>  pumvisible() ? neocomplcache#close_popup() . "\<SPACE>" : "\<SPACE>"
+inoremap <expr><C-h> neocomplcache#close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplcache#close_popup()."\<C-h>"
+inoremap <expr><C-y>  neocomplcache#close_popup()
+inoremap <expr><C-e>  neocomplcache#cancel_popup()
+inoremap <expr><Enter> pumvisible() ? "\<C-Y>" : "\<Enter>"
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+if !exists('g:neocomplcache_omni_patterns')
+  let g:neocomplcache_omni_patterns = {}
+endif
+let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
+let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+let g:neocomplcache_omni_patterns.c = '\%(\.\|->\)\h\w*'
+let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
+let g:neocomplcache_enable_auto_select=1
 
 set nocompatible
 filetype off
