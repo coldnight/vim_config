@@ -1,7 +1,6 @@
-首先
+git clone git://gitcafe.com/pythoner/vim_conf.git ~/.vim
+mkdir ~/.vim/bundle
 git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
-然后
 mv ~/.vim/.vimrc ~/
-最后
 打开Vim
 :BundleInstall
