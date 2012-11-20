@@ -5,6 +5,44 @@ source $VIMRUNTIME/menu.vim
 "source $VIMRUNTIME/mswin.vim   " 启动Ctrl-v/c 复制粘贴
 behave mswin
 
+"""""""""""""""""""""""""""""""""""""""""""""""
+" => Vim插件管理
+"""""""""""""""""""""""""""""""""""""""""""""""
+set nocompatible
+filetype off
+set rtp+=~/.vim/bundle/vundle
+call vundle#rc()
+Bundle 'gmarik/vundle'
+"Bundle "MarcWeber/vim-addon-mw-utils"
+"Bundle "tomtom/tlib_vim"
+"Bundle "honza/snipmate-snippets"
+"Bundle "garbas/vim-snipmate"
+Bundle "Shougo/neocomplcache"
+Bundle "Lokaltog/vim-powerline"
+Bundle "drakeguan/vim-vcscommand"
+Bundle "scrooloose/nerdtree"
+Bundle "pix/vim-taglist"
+Bundle "nathanaelkane/vim-indent-guides"
+Bundle "clones/vim-cecutil"
+Bundle "tpope/vim-fugitive"
+"Bundle "c9s/bufexplorer"
+Bundle "jnwhiteh/vim-golang"
+Bundle "kevinw/pyflakes-vim"
+Bundle "mbriggs/mark.vim"
+"Bundle "vim-scripts/TabBar"
+Bundle "vim-scripts/DrawIt"
+Bundle "vim-scripts/calendar.vim--Matsumoto"
+Bundle "vim-scripts/Python-mode-klen"
+"Bundle "vim-scripts/pydoc.vim"
+Bundle "vim-scripts/VOoM"
+Bundle "vim-scripts/qiushibaike"
+Bundle "vim-scripts/AuthorInfo"
+Bundle "vim-scripts/javacomplete"
+Bundle "vim-scripts/javaDoc.vim"
+Bundle "drmingdrmer/xptemplate.git"
+Bundle "vim-scripts/Java-Syntax-and-Folding"
+
+filetype indent plugin on
 
 function MyDiff()
   let opt = '-a --binary '
@@ -185,11 +223,9 @@ map <F5> :call CheckPythonSyntax()<cr>
 " => Pytho mode
 """""""""""""""""""""""""""""""
 let g:pymode_lint_write = 0
-let g:pymode_run_key = 'R'
-let g:pymode_doc = 1
-let g:pymode_doc_key = 'K'
-let g:pymode_run = 1
-let g:pymode_run_key = '<Leader>r'
+let g:pymode_doc = 0
+autocmd FileType python let g:pymode_doc_key = 'K'
+autocmd FileType python let g:pymode_run = 1
 let g:pymode_folding = 0
 let g:pymode_lint = 1
 let g:pymode_lint_checker="pyflakes,pep8,mccabe"
@@ -337,19 +373,20 @@ inoremap <expr><C-g>     neocomplcache#undo_completion()
 inoremap <expr><C-z>     neocomplcache#undo_completion()
 inoremap <expr><C-l>     neocomplcache#complete_common_string()
 inoremap <expr><CR> pumvisible() ? neocomplcache#close_popup() : "\<CR>"
-"inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 "inoremap <expr><space>  pumvisible() ? neocomplcache#close_popup() . "\<SPACE>" : "\<SPACE>"
 inoremap <expr><C-h> neocomplcache#close_popup()."\<C-h>"
 "inoremap <expr><BS> neocomplcache#close_popup()."\<C-h>"
 inoremap <expr><C-y>  neocomplcache#close_popup()
 inoremap <expr><C-e>  neocomplcache#cancel_popup()
-inoremap <expr><S-Enter> pumvisible() ? "\<C-Y>" : "\<Enter>"
+inoremap <expr><Enter> pumvisible() ? "\<C-Y>" : "\<Enter>"
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
 autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+"autocmd FileType java setlocal omnifunc=javacomplete#Complete
 if !exists('g:neocomplcache_omni_patterns')
   let g:neocomplcache_omni_patterns = {}
 endif
@@ -357,40 +394,3 @@ let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
 let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
 let g:neocomplcache_omni_patterns.c = '\%(\.\|->\)\h\w*'
 let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""
-" => Vim插件管理
-"""""""""""""""""""""""""""""""""""""""""""""""
-set nocompatible
-filetype off
-set rtp+=~/.vim/bundle/vundle
-call vundle#rc()
-Bundle 'gmarik/vundle'
-Bundle "MarcWeber/vim-addon-mw-utils"
-Bundle "tomtom/tlib_vim"
-Bundle "honza/snipmate-snippets"
-Bundle "garbas/vim-snipmate"
-Bundle "Shougo/neocomplcache"
-Bundle "Lokaltog/vim-powerline"
-Bundle "drakeguan/vim-vcscommand"
-Bundle "vim-scripts/TabBar"
-Bundle "scrooloose/nerdtree"
-Bundle "pix/vim-taglist"
-Bundle "vim-scripts/DrawIt"
-Bundle "vim-scripts/calendar.vim--Matsumoto"
-Bundle "vim-scripts/Python-mode-klen"
-Bundle "nathanaelkane/vim-indent-guides"
-Bundle "clones/vim-cecutil"
-Bundle "tpope/vim-fugitive"
-Bundle "vim-scripts/pydoc.vim"
-Bundle "vim-scripts/VOoM"
-Bundle "mbriggs/mark.vim"
-Bundle "c9s/bufexplorer"
-Bundle "vim-scripts/qiushibaike"
-Bundle "vim-scripts/AuthorInfo"
-Bundle "jnwhiteh/vim-golang"
-Bundle "kevinw/pyflakes-vim"
-
-filetype indent plugin on
-"let g:snippets_dir='~/.vim/snippets'
