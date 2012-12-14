@@ -81,11 +81,10 @@ set nobackup                   " 覆盖文件时不备份
 set history=1000               " 设置命令历史
 set autoread                   " 当文件被改动时自动加载
 autocmd! bufwritepost vimrc source ~/.vimrc  " 当vimrc改动时，自动加载
-set imcmdline                  "解决右键菜单乱码
+set imcmdline                  " 解决右键菜单乱码
 set diffexpr=MyDiff()
-set backspace=indent,eol,start " 更改退格键动作
+set backspace=indent,eol,start " 更改退格键动作(indent=缩进,eol=endofline, start=行开始)
 set listchars=tab:>-,trail:-,extends:#,nbsp:- " 显示空白和制表符
-set cuc                        " 显示纵向对齐线
 set selection=inclusive        " 将光标所在位置也作为被选择范围
 set wildmenu                   " 在终端下使用一个漂亮的菜单显示补全
 set wildmode=list:longest,full " 设置普全菜单模式
@@ -94,44 +93,49 @@ set scrolljump=5
 set scrolloff=3                " 设置光标具上/下多少行是屏幕滚动
 set gdefault                   " 改变s命令状态,设置为全部替换
 set list
-set ignorecase                  " 搜索时呼略大小写
-set hlsearch                    " 高亮搜索项
-set incsearch                   " 当输入时就搜索
-set showmatch                   " show matching brackets/parenthesis
+set ignorecase                 " 搜索时呼略大小写
+set hlsearch                   " 高亮搜索项
+set incsearch                  " 当输入时就搜索
+set showmatch                  " show matching brackets/parenthesis
 set foldenable
-set autoindent                  " 设置自动缩进
-set smarttab                    " 设置灵巧的tab,tab被替换成空格时,删除将删除整个被替换成tab的空格
-set smartindent                 " 设置灵巧的缩进
-set tags=~/.tags/tags           " 设置ctags目录
-set cmdheight=2                 "设置命令行的高度
-set hid                         "改变缓冲区（不保存）
-set noerrorbells                " 不显示错误声音
-set novisualbell
-set t_vb=
-set fileencoding=utf8           " 使用utf8打开文件
-set encoding=utf8               " 设置显示编码
-language messages zh_CN.utf-8   " 设置console信息编码
+set autoindent                 " 设置自动缩进
+set smarttab                   " 设置灵巧的tab,tab被替换成空格时,删除将删除整个被替换成tab的空格
+set smartindent                " 设置灵巧的缩进
+set tags=~/.tags/tags          " 设置ctags目录
+set cmdheight=2                " 设置命令行的高度
+set hid                        " 改变缓冲区（不保存）
+set noerrorbells               " 不显示错误声音
+set novisualbell               " 设置没有可视铃声
+set t_vb=                      " 禁用可视铃声
+set fileencoding=utf8          " 使用utf8打开文件
+set encoding=utf8              " 设置显示编码
+language messages zh_CN.utf-8  " 设置console信息编码
 set tm=500
-set expandtab                   " 使用spcae代替tab
-set tabstop=4                   " tab宽度
-set shiftwidth=4                " tab自动缩进宽度
-set cursorline                  " 设置高亮当前行
-set nocp                        " 不设置 'compatible'
-set guifont=Monaco\ 10          " 设置gui英文字体
+set expandtab                  " 使用spcae代替tab
+set tabstop=4                  " tab宽度
+set shiftwidth=4               " tab自动缩进宽度
+set cursorline                 " 设置高亮当前行
+set nocp                       " 不设置 'compatible'
+set guifont=Monaco\ 10         " 设置gui英文字体
 set guifontwide=WenQuanYi\ Zen\ Hei\ 10 " 设置gui等宽字体
-let mapleader=','               " 设置主键为,
+let mapleader=','              " 设置主键为,
 let g:ctags_statusline=1
 "set guifont=Bitstream_Vera_Sans_Mono:h10:cANSI
-"set co=130                     " 通过设置列行数来控制窗口的大小
+"set co=130                    " 通过设置列行数来控制窗口的大小
 "set lines=100
-"set fdm=indent                 " 设置代码折叠
-"set fdc=4                      " 设置代码折叠宽度为4个字符
+"set fdm=indent                " 设置代码折叠
+"set fdc=4                     " 设置代码折叠宽度为4个字符
+set wrap                       " 设置自动折行
+set cuc                        " 显示纵向对齐线
+set cc=78                      " 在78列显示对齐线
+colorscheme distinguished      " 设置配色方案
+hi ColorColumn ctermbg=lightgrey " 设置78列对齐线颜色
 
 if has('cmdline_info')
-    set ruler                   " show the ruler
+    set ruler                  " show the ruler
     set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%) " a ruler on steroids
-    set showcmd                 " show partial commands in status line and
-                                " selected characters/lines in visual mode
+    set showcmd                " show partial commands in status line and
+                               " selected characters/lines in visual mode
 endif
 
 
@@ -141,6 +145,7 @@ endif
 """"""""""""""""""""""""""""""""""""""""""""""""
 " 定义命令别名
 cmap W w
+cmap w' w
 cmap WQ wq
 cmap wq1 wq!
 cmap qa1 qa!
@@ -166,13 +171,13 @@ nmap <leader>vu :VCSUpdate<CR>
 """""""""""""""""""""""""""""""""""""""""""""""""
 set laststatus=2
 let g:Powerline_symbols='unicode'
+call Pl#Theme#InsertSegment('Tlist_Get_Tagname_By_Line()', 'after', 'fileinfo')
 
 """""""""""""""""""""""""""""""""""""""""""""""""
 " => 配色方案
 """""""""""""""""""""""""""""""""""""""""""""""""
 if (has("gui_running"))
     "图形界面下的设置
-    set wrap
     "set guioptions+=b
     set background=dark
     colorscheme solarized
@@ -180,10 +185,8 @@ if (has("gui_running"))
     set columns=95 lines=40
 else
     "字符界面的下跌设置
-    set wrap
     set t_Co=256
 endif
-colorscheme distinguished       " 设置配色方案
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " =>Python
@@ -193,6 +196,7 @@ au FileType python syn keyword pythonDecorator True None False self
 
 au BufNewFile,BufRead *.jinja set syntax=htmljinja
 au BufNewFile,BufRead *.mako set ft=mako
+au BufNewFile,BufRead *.wsgi set ft=python
 
 au FileType python inoremap <buffer> $r return
 au FileType python inoremap <buffer> $i import
@@ -217,6 +221,51 @@ endfunction
 
 map <F5> :w<cr>
 map <F5> :call CheckPythonSyntax()<cr>
+
+let g:python_author = 'wh'
+let g:python_email  = 'wh_linux@126.com'
+
+"Python 注释
+function InsertPythonComment()
+    exe 'normal'.1.'G'
+    let line = getline('.')
+    if line =~ '^#!.*$' || line =~ '^#.*coding:.*$'
+        return
+    endif
+    normal O
+    call setline('.', '#!/usr/bin/env python')
+    normal o
+    call setline('.', '# -*- coding:utf-8 -*-')
+    normal o
+    call setline('.', '#')
+    normal o
+    call setline('.', '#   Author  :   '.g:python_author)
+    normal o
+    call setline('.', '#   E-mail  :   '.g:python_email)
+    normal o
+    call setline('.', '#   Date    :   '.strftime("%y/%m/%d %H:%M:%S"))
+    normal o
+    call setline('.', '#   Desc    :   ')
+    normal o
+    call setline('.', '#')
+    call cursor(7, 17)
+endfunction
+" F4 添加Python注释
+au FileType python map <F4> :call InsertPythonComment()<cr>
+au FileType python set tw=78 " python文件文本最长宽度为78
+
+function InsertCommentWhenOpen()
+    if line('$') == 1 && getline(1) == ''
+        call InsertPythonComment()
+    end
+endfunc
+" 打开Python文件自动添加注释
+au FileType python :call InsertCommentWhenOpen()
+" Python自动跳到下/上一个函数/类
+au FileType python map <C-j> :call search('\s*def\ ', "w")<cr>
+au FileType python map <C-k> :call search('\s*def\ ', 'wb')<cr>
+au FileType python map <Leader>j :call search('\s*class\ ', "w")<cr>
+au FileType python map <Leader>k :call search('\s*class\ ', "wb")<cr>
 
 
 """""""""""""""""""""""""""""""
@@ -342,7 +391,7 @@ autocmd FileType c,cpp,java,php,js,python,twig,xml,yml autocmd BufWritePre <buff
 """""""""""""""""""""""""""""""""""""""""
 " complete
 """""""""""""""""""""""""""""""""""""""""
-let g:neocomplcache_enable_at_startup=1  " 自动加载neocomplcache
+let g:neocomplcache_enable_at_startup=0  " 自动加载neocomplcache
 let g:neocomplcache_enable_samrt_case=1  " 启动灵巧补全
 let g:neocomplcache_enable_cmel_case_completion=1
 let g:neocomplcache_enable_underbar_completion=1
