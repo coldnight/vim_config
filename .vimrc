@@ -73,7 +73,7 @@ endfunction
 " =>常规
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 syntax on                      " 设置语法高亮
-set magic
+set magic                      " 设置自动转意类似python的r''功能
 set nu                         " 显示行号
 set ai                         " 设置自动缩进
 set ruler                      " 打开状态栏标尺
@@ -150,9 +150,7 @@ cmap WQ wq
 cmap wq1 wq!
 cmap qa1 qa!
 cmap q1 q!
-
 map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR> " C-\ - Open the definition in a new tab
-
 nmap <Leader>cs :nohl <CR>      " 清除高亮
 
 """""""""""""""""""""""""""""""""""""""""""""""
@@ -262,10 +260,10 @@ endfunc
 " 打开Python文件自动添加注释
 au FileType python :call InsertCommentWhenOpen()
 " Python自动跳到下/上一个函数/类
-au FileType python map <C-j> :call search('\s*def\ ', "w")<cr>
-au FileType python map <C-k> :call search('\s*def\ ', 'wb')<cr>
-au FileType python map <Leader>j :call search('\s*class\ ', "w")<cr>
-au FileType python map <Leader>k :call search('\s*class\ ', "wb")<cr>
+au FileType python map <C-j> :call search('^\s*def\ ', "w")<cr>
+au FileType python map <C-k> :call search('^\s*def\ ', 'wb')<cr>
+au FileType python map <Leader>j :call search('^\s*class\ ', "w")<cr>
+au FileType python map <Leader>k :call search('^\s*class\ ', "wb")<cr>
 
 
 """""""""""""""""""""""""""""""
@@ -321,7 +319,8 @@ au FileType javascript imap <c-a> alert();<esc>hi
 au FileType javascript inoremap <buffer> $r return
 au FileType javascript inoremap <buffer> $f //--- PH ----------------------------------------------<esc>FP2xi
 
-au BufRead,BufNewFile *.js set syntax=jquery
+"au BufRead,BufNewFile *.js set syntax=jquery
+au FileType javascript set ft=jquery
 let g:SimpleJsIndenter_BriefMode=1
 
 function! JavaScriptFold()
