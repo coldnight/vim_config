@@ -41,6 +41,8 @@ Bundle "vim-scripts/javacomplete"
 Bundle "vim-scripts/javaDoc.vim"
 Bundle "drmingdrmer/xptemplate.git"
 Bundle "vim-scripts/Java-Syntax-and-Folding"
+Bundle "plasticboy/vim-markdown"
+Bundle "majutsushi/tagbar"
 
 filetype indent plugin on
 
@@ -126,10 +128,7 @@ let g:ctags_statusline=1
 "set fdm=indent                " 设置代码折叠
 "set fdc=4                     " 设置代码折叠宽度为4个字符
 set wrap                       " 设置自动折行
-set cuc                        " 显示纵向对齐线
-set cc=78                      " 在78列显示对齐线
 colorscheme distinguished      " 设置配色方案
-hi ColorColumn ctermbg=lightgrey " 设置78列对齐线颜色
 
 if has('cmdline_info')
     set ruler                  " show the ruler
@@ -152,6 +151,7 @@ cmap qa1 qa!
 cmap q1 q!
 map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR> " C-\ - Open the definition in a new tab
 nmap <Leader>cs :nohl <CR>      " 清除高亮
+nmap <Leader>b \<C-B>
 
 """""""""""""""""""""""""""""""""""""""""""""""
 " => VCS key map
@@ -163,13 +163,6 @@ nmap <leader>va :VCSAdd<CR>
 nmap <leader>vd :VCSVimDiff<CR>
 nmap <leader>vl :VCSLog<CR>
 nmap <leader>vu :VCSUpdate<CR>
-
-"""""""""""""""""""""""""""""""""""""""""""""""""
-" => statusline
-"""""""""""""""""""""""""""""""""""""""""""""""""
-set laststatus=2
-let g:Powerline_symbols='unicode'
-call Pl#Theme#InsertSegment('Tlist_Get_Tagname_By_Line()', 'after', 'fileinfo')
 
 """""""""""""""""""""""""""""""""""""""""""""""""
 " => 配色方案
@@ -192,18 +185,23 @@ endif
 let python_highlight_all = 1
 au FileType python syn keyword pythonDecorator True None False self
 
-au BufNewFile,BufRead *.jinja set syntax=htmljinja
+au BufNewFile,BufRead *.jinja set syntax=jinja
 au BufNewFile,BufRead *.mako set ft=mako
 au BufNewFile,BufRead *.wsgi set ft=python
 
 au FileType python inoremap <buffer> $r return
 au FileType python inoremap <buffer> $i import
-au FileType python inoremap <buffer> $p print
+au FileType python inoremap <buffer> $p import pdb;pdb.set_trace()
 au FileType python inoremap <buffer> $f #--- PH ----------------------------------------------<esc>FP2xi
 au FileType python map <buffer> <leader>1 /class
 au FileType python map <buffer> <leader>2 /def
 au FileType python map <buffer> <leader>C ?class
 au FileType python map <buffer> <leader>D ?def
+au FileType python set cuc                        " 显示纵向对齐线
+au FileType python set cc=78                      " 在78列显示对齐线
+au FileType python hi ColorColumn ctermbg=lightgrey
+au FileType python set tw=78 " python文件文本最长宽度为78
+
 "Python 一键执行
 function CheckPythonSyntax()
     let mp = &makeprg
@@ -250,7 +248,6 @@ function InsertPythonComment()
 endfunction
 " F4 添加Python注释
 au FileType python map <F4> :call InsertPythonComment()<cr>
-au FileType python set tw=78 " python文件文本最长宽度为78
 
 function InsertCommentWhenOpen()
     if line('$') == 1 && getline(1) == ''
@@ -270,7 +267,7 @@ au FileType python map <Leader>k :call search('^\s*class\ ', "wb")<cr>
 " => Pytho mode
 """""""""""""""""""""""""""""""
 let g:pymode_lint_write = 0
-let g:pymode_doc = 0
+let g:pymode_doc = 1
 autocmd FileType python let g:pymode_doc_key = 'K'
 autocmd FileType python let g:pymode_run = 1
 let g:pymode_folding = 0
@@ -378,13 +375,20 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 """"""""""""""""""""""""""""""""""""""""
 map <F3> :silent! Tlist<CR>
 let Tlist_Ctags_Cmd='ctags'
+let Tlist_Auto_Update=1
 let Tlist_Use_Right_Window=1
 let Tlist_Show_One_file=0
 let Tlist_Exit_OnlyWindow=1
-let Tlist_Process_File_Always=0
+let Tlist_Process_File_Always=1
 let Tlist_Inc_Winwidth=0
 let Tlist_Exit_OnlyWindow=1
 autocmd FileType c,cpp,java,php,js,python,twig,xml,yml autocmd BufWritePre <buffer> :call setline(1,map(getline(1,"$"),'substitute(v:val,"\\s\\+$","","")'))
+
+"""""""""""""""""""""""""""""""""""""""""
+" => TagBar
+"""""""""""""""""""""""""""""""""""""""""
+map <silent> <F3> :TagbarToggle<CR>
+let g:tagbar_ctags_bin = 'ctags'
 
 
 """""""""""""""""""""""""""""""""""""""""
@@ -442,3 +446,18 @@ let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
 let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
 let g:neocomplcache_omni_patterns.c = '\%(\.\|->\)\h\w*'
 let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
+function EnableOrDisableNeoCompleCache()
+    if neocomplcache#is_enabled()
+        execute 'NeoComplCacheDisable'
+    else
+        execute 'NeoComplCacheEnable'
+    endif
+endfunc
+
+map <Leader>neo :call EnableOrDisableNeoCompleCache()<CR>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""
+" => statusline
+"""""""""""""""""""""""""""""""""""""""""""""""""
+set laststatus=2
+let g:Powerline_symbols='unicode'

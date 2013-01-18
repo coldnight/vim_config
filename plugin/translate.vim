@@ -2,10 +2,10 @@
 "   E-mail  :   wh_linux@126.com
 "   Date    :   2012/12/20 16:23
 "   Desc    :   英汉/汉英翻译插件
-"
 "   Useage  :
-"                  <Leader> t 翻译当前光标下内容 XXX 中文不行
+"                  <Leader> t 翻译当前光标下内容 //XXX 中文不行
 "                  <Leader> lt 翻译当前行
+"                  <Leader> vt 翻译选中的内容
 
 function GetCursorWord()
     let column = get(getpos('.'), 2, 0) - 1
@@ -36,11 +36,12 @@ endfunc
 
 function Translate(m)
     " m 1 -> 翻译当前行
+    " m 2 -> 翻译选中
     if mode() == 'n'
         let word = GetCursorWord() " 如果是命令模式则取当前字符下单词
     endif
     "XXX Visual 模式mode()命令返回n
-    if mode() == 'v'
+    if a:m == 2
         let word = getreg('*')     " 如果是选择模式获取选择块
     endif
     if a:m == 1
@@ -67,7 +68,7 @@ class Translate(object):
 
     def loads(self, content):
         """ 加载翻译结果 """
-        while ',,' in content:
+        while ',,' in content or '[,' in content:
             content = content.replace(',,', ',"",')
             content = content.replace('[,', '["",')
             #content = content.replace(',]', '"",]')
@@ -98,6 +99,7 @@ class Translate(object):
         req.add_header("User-Agent",
                        "Mozilla/5.0+(compatible;+Googlebot/2.1;"
                        "++http://www.google.com/bot.html)")
+
         res = urllib2.urlopen(req)
         result =  res.read()
         return self.loads(result)
@@ -116,7 +118,7 @@ def auto_translate(text):
     return result
 
 word = vim.eval('word')
-result = auto_translate(word)
+result = auto_translate(word.strip())
 vim.command('echo "源词: ' + result.get("source") + '"')
 vim.command('echo "结果: ' + result.get("result") + '"')
 vim.command('echo "拼音: ' + result.get("pinyin") + '"')
@@ -127,5 +129,7 @@ if result.get('others'):
 EOF
 
 endfunc
-map <Leader>t :call Translate(0)<cr>
-map <Leader>lt :call Translate(1)<cr>
+nmap <Leader>t :call Translate(0)<cr>
+nmap <Leader>lt :call Translate(1)<cr>
+"XXX 无法判断当前模式,使用映射替代
+map <Leader>ts :call Translate(2)<cr> 
