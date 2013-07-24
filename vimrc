@@ -90,8 +90,8 @@ set listchars=tab:>-,trail:-,extends:#,nbsp:- " 显示空白和制表符
 set selection=inclusive        " 将光标所在位置也作为被选择范围
 set wildmenu                   " 在终端下使用一个漂亮的菜单显示补全
 set wildmode=list:longest,full " 设置普全菜单模式
-set whichwrap=b,s,h,l,<,>,[,]  " 当遇到这些字符时折行
-set scrolljump=5
+set whichwrap=b,s,h,l,<,>,[,]  " 遇到这些指令到行尾折行继续
+set scrolljump=5               " 光标距离顶/底部多少行时滚动
 set scrolloff=3                " 设置光标具上/下多少行是屏幕滚动
 set gdefault                   " 改变s命令状态,设置为全部替换
 set list
@@ -179,6 +179,47 @@ else
     set t_Co=256
 endif
 
+"""""""""""""""""""""""""""""""
+" => Pytho mode
+"""""""""""""""""""""""""""""""
+let g:pymode_lint_write = 0
+let g:pymode_doc = 1
+autocmd FileType python let g:pymode_doc_key = 'K'
+autocmd FileType python let g:pymode_run = 1
+let g:pymode_folding = 0
+let g:pymode_lint = 1
+let g:pymode_lint_checker="pyflakes,pep8,mccabe"
+let g:pymode_lint_onfly=0
+let g:pymode_lint_config=$HOME."/.pylintrc"
+let g:pymode_lint_message=1
+let g:pymode_lint_jump = 0
+let g:pymode_lint_hold = 0
+let g:pymode_lint_signs = 1
+let g:pymode_lint_mccabe_complexity = 8
+let g:pymode_lint_minheight = 3
+let g:pymode_lint_maxheight = 1
+let g:pymode_rope = 1
+let g:pymode_rope_enable_autoimport = 1
+let g:pymode_rope_autoimport_generate = 1
+let g:pymode_rope_autoimport_underlineds = 0
+let g:pymode_rope_codeassist_maxfixes = 10
+let g:pymode_rope_sorted_completions = 1
+let g:pymode_rope_extended_complete = 1
+let g:pymode_rope_autoimport_modules = ["os","shutil","datetime"]
+let g:pymode_rope_confirm_saving = 1
+let g:pymode_rope_global_prefix = "<C-x>p"
+let g:pymode_rope_local_prefix = "<C-c>r"
+let g:pymode_rope_vim_completion = 1
+let g:pymode_rope_guess_project = 1
+let g:pymode_rope_goto_def_newwin = ""
+let g:pymode_rope_always_show_complete_menu = 0
+let g:pymode_motion = 1
+let g:pymode_syntax = 1
+let g:pymode_syntax_all = 1
+let g:pymode_rope_vim_completion = 1
+
+
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " =>Python
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -201,6 +242,8 @@ au FileType python set cuc                        " 显示纵向对齐线
 au FileType python set cc=78                      " 在78列显示对齐线
 au FileType python hi ColorColumn ctermbg=lightgrey
 au FileType python set tw=78 " python文件文本最长宽度为78
+au FileType python set fdm=indent
+au FileType python set fdc=4
 
 "Python 一键执行
 function CheckPythonSyntax()
@@ -218,7 +261,13 @@ endfunction
 map <F5> :w<cr>
 map <F5> :call CheckPythonSyntax()<cr>
 
-let g:python_author = 'wh'
+let currPath = strpart(expand("%:p"), 0, 18)
+if currPath == "/data/home/wh/jobs"
+    let g:python_author = 'wh'
+else
+    let g:python_author = 'cold'
+endif
+
 let g:python_email  = 'wh_linux@126.com'
 
 "Python 注释
@@ -263,46 +312,6 @@ au FileType python map <Leader>j :call search('^\s*class\ ', "w")<cr>
 au FileType python map <Leader>k :call search('^\s*class\ ', "wb")<cr>
 
 
-"""""""""""""""""""""""""""""""
-" => Pytho mode
-"""""""""""""""""""""""""""""""
-let g:pymode_lint_write = 0
-let g:pymode_doc = 1
-autocmd FileType python let g:pymode_doc_key = 'K'
-autocmd FileType python let g:pymode_run = 1
-let g:pymode_folding = 0
-let g:pymode_lint = 1
-let g:pymode_lint_checker="pyflakes,pep8,mccabe"
-let g:pymode_lint_onfly=0
-let g:pymode_lint_config=$HOME."/.pylintrc"
-let g:pymode_lint_message=1
-let g:pymode_lint_jump = 0
-let g:pymode_lint_hold = 0
-let g:pymode_lint_signs = 1
-let g:pymode_lint_mccabe_complexity = 8
-let g:pymode_lint_minheight = 3
-let g:pymode_lint_maxheight = 1
-let g:pymode_rope = 1
-let g:pymode_rope_enable_autoimport = 1
-let g:pymode_rope_autoimport_generate = 1
-let g:pymode_rope_autoimport_underlineds = 0
-let g:pymode_rope_codeassist_maxfixes = 10
-let g:pymode_rope_sorted_completions = 1
-let g:pymode_rope_extended_complete = 1
-let g:pymode_rope_autoimport_modules = ["os","shutil","datetime"]
-let g:pymode_rope_confirm_saving = 1
-let g:pymode_rope_global_prefix = "<C-x>p"
-let g:pymode_rope_local_prefix = "<C-c>r"
-let g:pymode_rope_vim_completion = 1
-let g:pymode_rope_guess_project = 1
-let g:pymode_rope_goto_def_newwin = ""
-let g:pymode_rope_always_show_complete_menu = 0
-let g:pymode_motion = 1
-let g:pymode_syntax = 1
-let g:pymode_syntax_all = 1
-let g:pymode_rope_vim_completion = 1
-
-
 """"""""""""""""""""""""""""""
 " => JavaScript section
 """""""""""""""""""""""""""""""
@@ -340,6 +349,15 @@ map <silent> <F2> :if &guioptions =~# 'T' <Bar>
         \set guioptions+=T <Bar>
         \set guioptions+=m <Bar>
     \endif<CR>
+
+""""""""""""""""""""""""""""""
+" HTML
+""""""""""""""""""""""""""""""
+au FileType xhtml set tw=0
+au FileType html set tw=0
+au FileType jinja set tw=0
+au FileType xml set tw=0
+
 
 """"""""""""""""""""""""""""""
 " => Calendar
@@ -461,3 +479,4 @@ map <Leader>neo :call EnableOrDisableNeoCompleCache()<CR>
 """""""""""""""""""""""""""""""""""""""""""""""""
 set laststatus=2
 let g:Powerline_symbols='unicode'
+set wrap                       " 设置自动折行
