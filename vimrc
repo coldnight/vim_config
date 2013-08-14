@@ -43,6 +43,11 @@ Bundle "drmingdrmer/xptemplate.git"
 Bundle "vim-scripts/Java-Syntax-and-Folding"
 Bundle "plasticboy/vim-markdown"
 Bundle "majutsushi/tagbar"
+"Bundle "kakkyz81/evervim"
+Bundle "Valloric/YouCompleteMe"
+Bundle "davidhalter/jedi"
+Bundle "tpope/vim-pathogen"
+Bundle "scrooloose/syntastic"
 
 filetype indent plugin on
 
@@ -84,7 +89,7 @@ set history=1000               " 设置命令历史
 set autoread                   " 当文件被改动时自动加载
 autocmd! bufwritepost vimrc source ~/.vimrc  " 当vimrc改动时，自动加载
 set imcmdline                  " 解决右键菜单乱码
-set diffexpr=MyDiff()
+"set diffexpr=MyDiff()
 set backspace=indent,eol,start " 更改退格键动作(indent=缩进,eol=endofline, start=行开始)
 set listchars=tab:>-,trail:-,extends:#,nbsp:- " 显示空白和制表符
 set selection=inclusive        " 将光标所在位置也作为被选择范围
@@ -242,8 +247,6 @@ au FileType python set cuc                        " 显示纵向对齐线
 au FileType python set cc=78                      " 在78列显示对齐线
 au FileType python hi ColorColumn ctermbg=lightgrey
 au FileType python set tw=78 " python文件文本最长宽度为78
-au FileType python set fdm=indent
-au FileType python set fdc=4
 
 "Python 一键执行
 function CheckPythonSyntax()
@@ -480,3 +483,18 @@ map <Leader>neo :call EnableOrDisableNeoCompleCache()<CR>
 set laststatus=2
 let g:Powerline_symbols='unicode'
 set wrap                       " 设置自动折行
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""
+" => YouComplete
+"""""""""""""""""""""""""""""""""""""""""""""""""
+let g:ycm_confirm_extra_conf = 0  " 不提示确认加载 .ycm_extra_conf.py
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""
+" => syntastic
+"""""""""""""""""""""""""""""""""""""""""""""""""
+execute pathogen#infect()
+let g:syntastic_error_symbol='✗'
+let g:syntastic_warning_symbol='⚠'
+let g:syntastic_ignore_files=[".*\.py$"]
