@@ -46,7 +46,6 @@ Bundle "majutsushi/tagbar"
 "Bundle "kakkyz81/evervim"
 Bundle "Valloric/YouCompleteMe"
 Bundle "davidhalter/jedi"
-Bundle "tpope/vim-pathogen"
 Bundle "scrooloose/syntastic"
 
 filetype indent plugin on
@@ -494,7 +493,6 @@ let g:ycm_confirm_extra_conf = 0  " 不提示确认加载 .ycm_extra_conf.py
 """""""""""""""""""""""""""""""""""""""""""""""""
 " => syntastic
 """""""""""""""""""""""""""""""""""""""""""""""""
-execute pathogen#infect()
 let g:syntastic_error_symbol='✗'
 let g:syntastic_warning_symbol='⚠'
 let g:syntastic_ignore_files=[".*\.py$"]
