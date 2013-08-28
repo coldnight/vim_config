@@ -17,7 +17,7 @@ Bundle 'gmarik/vundle'
 "Bundle "tomtom/tlib_vim"
 "Bundle "honza/snipmate-snippets"
 "Bundle "garbas/vim-snipmate"
-Bundle "Shougo/neocomplcache"
+"Bundle "Shougo/neocomplcache"
 Bundle "Lokaltog/vim-powerline"
 Bundle "drakeguan/vim-vcscommand"
 Bundle "scrooloose/nerdtree"
@@ -43,10 +43,12 @@ Bundle "drmingdrmer/xptemplate.git"
 Bundle "vim-scripts/Java-Syntax-and-Folding"
 Bundle "plasticboy/vim-markdown"
 Bundle "majutsushi/tagbar"
-"Bundle "kakkyz81/evervim"
+Bundle "kakkyz81/evervim"
 Bundle "Valloric/YouCompleteMe"
 Bundle "davidhalter/jedi"
+Bundle "davidhalter/jedi-vim"
 Bundle "scrooloose/syntastic"
+"Bundle "vim-scripts/Conque-Shell"
 
 filetype indent plugin on
 
@@ -231,6 +233,7 @@ let python_highlight_all = 1
 au FileType python syn keyword pythonDecorator True None False self
 
 au BufNewFile,BufRead *.jinja set syntax=jinja
+au BufNewFile,BufRead *.jinja set ft=jinja
 au BufNewFile,BufRead *.mako set ft=mako
 au BufNewFile,BufRead *.wsgi set ft=python
 
@@ -414,67 +417,67 @@ let g:tagbar_ctags_bin = 'ctags'
 """""""""""""""""""""""""""""""""""""""""
 " complete
 """""""""""""""""""""""""""""""""""""""""
-let g:neocomplcache_enable_at_startup=0  " 自动加载neocomplcache
-let g:neocomplcache_enable_samrt_case=1  " 启动灵巧补全
-let g:neocomplcache_enable_cmel_case_completion=1
-let g:neocomplcache_enable_underbar_completion=1
-let g:neocomplcache_min_syntax_length=3  " 3个字符开始补全
-let g:neocomplacche_lock_buffer_name_pattern='\*ku\*'
-let g:neocomplcache_enable_auto_select=1
-let g:neocomplcache_enable_quick_match=1
-let g:neocomplcache_dictionary_filetype_lists={
-    \ 'default':'',
-    \ 'vimshell':$HOME.'/.vimshell_hist',
-    \ 'scheme':$HOME.'/.gosh_completions',
-    \ 'css': $HOME.'/.vim/dict/css.dic',
-    \ 'php': $HOME.'/.vim/dict/php.dic',
-    \ 'javascript':$HOME.'/.vim/dict/js.dic'
-    \ }
-
-let g:neocomplcache_snippets_dir=$HOME.'.vim/snippets'
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<TAB>"
-inoremap <expr><C-TAB> pumvisible() ? "\<C-p>" : "\<TAB>"
-
-if !exists('g:neocomplcache_keywrod_patterns')
-    let g:neocomplcache_keyword_patterns = {}
-endif
-let g:neocomplcache_keyword_patterns['default']='\h\w*'
-imap <C-k>     <Plug>(neocomplcache_snippets_expand)
-smap <C-k>     <Plug>(neocomplcache_snippets_expand)
-inoremap <expr><C-g>     neocomplcache#undo_completion()
-inoremap <expr><C-z>     neocomplcache#undo_completion()
-inoremap <expr><C-l>     neocomplcache#complete_common_string()
-inoremap <expr><CR> pumvisible() ? neocomplcache#close_popup() : "\<CR>"
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-"inoremap <expr><space>  pumvisible() ? neocomplcache#close_popup() . "\<SPACE>" : "\<SPACE>"
-inoremap <expr><C-h> neocomplcache#close_popup()."\<C-h>"
-"inoremap <expr><BS> neocomplcache#close_popup()."\<C-h>"
-inoremap <expr><C-y>  neocomplcache#close_popup()
-inoremap <expr><C-e>  neocomplcache#cancel_popup()
-inoremap <expr><Enter> pumvisible() ? "\<C-Y>" : "\<Enter>"
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
-"autocmd FileType java setlocal omnifunc=javacomplete#Complete
-if !exists('g:neocomplcache_omni_patterns')
-  let g:neocomplcache_omni_patterns = {}
-endif
-let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
-let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-let g:neocomplcache_omni_patterns.c = '\%(\.\|->\)\h\w*'
-let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
-function EnableOrDisableNeoCompleCache()
-    if neocomplcache#is_enabled()
-        execute 'NeoComplCacheDisable'
-    else
-        execute 'NeoComplCacheEnable'
-    endif
-endfunc
-
-map <Leader>neo :call EnableOrDisableNeoCompleCache()<CR>
+"let g:neocomplcache_enable_at_startup=0  " 自动加载neocomplcache
+"let g:neocomplcache_enable_samrt_case=1  " 启动灵巧补全
+"let g:neocomplcache_enable_cmel_case_completion=1
+"let g:neocomplcache_enable_underbar_completion=1
+"let g:neocomplcache_min_syntax_length=3  " 3个字符开始补全
+"let g:neocomplacche_lock_buffer_name_pattern='\*ku\*'
+"let g:neocomplcache_enable_auto_select=1
+"let g:neocomplcache_enable_quick_match=1
+"let g:neocomplcache_dictionary_filetype_lists={
+"    \ 'default':'',
+"    \ 'vimshell':$HOME.'/.vimshell_hist',
+"    \ 'scheme':$HOME.'/.gosh_completions',
+"    \ 'css': $HOME.'/.vim/dict/css.dic',
+"    \ 'php': $HOME.'/.vim/dict/php.dic',
+"    \ 'javascript':$HOME.'/.vim/dict/js.dic'
+"    \ }
+"
+"let g:neocomplcache_snippets_dir=$HOME.'.vim/snippets'
+"inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<TAB>"
+"inoremap <expr><C-TAB> pumvisible() ? "\<C-p>" : "\<TAB>"
+"
+"if !exists('g:neocomplcache_keywrod_patterns')
+"    let g:neocomplcache_keyword_patterns = {}
+"endif
+"let g:neocomplcache_keyword_patterns['default']='\h\w*'
+"imap <C-k>     <Plug>(neocomplcache_snippets_expand)
+"smap <C-k>     <Plug>(neocomplcache_snippets_expand)
+"inoremap <expr><C-g>     neocomplcache#undo_completion()
+"inoremap <expr><C-z>     neocomplcache#undo_completion()
+"inoremap <expr><C-l>     neocomplcache#complete_common_string()
+"inoremap <expr><CR> pumvisible() ? neocomplcache#close_popup() : "\<CR>"
+"inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+""inoremap <expr><space>  pumvisible() ? neocomplcache#close_popup() . "\<SPACE>" : "\<SPACE>"
+"inoremap <expr><C-h> neocomplcache#close_popup()."\<C-h>"
+""inoremap <expr><BS> neocomplcache#close_popup()."\<C-h>"
+"inoremap <expr><C-y>  neocomplcache#close_popup()
+"inoremap <expr><C-e>  neocomplcache#cancel_popup()
+"inoremap <expr><Enter> pumvisible() ? "\<C-Y>" : "\<Enter>"
+"autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+"autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+"autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+"autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+"autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+"autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+""autocmd FileType java setlocal omnifunc=javacomplete#Complete
+"if !exists('g:neocomplcache_omni_patterns')
+"  let g:neocomplcache_omni_patterns = {}
+"endif
+"let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
+"let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+"let g:neocomplcache_omni_patterns.c = '\%(\.\|->\)\h\w*'
+"let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
+"function EnableOrDisableNeoCompleCache()
+"    if neocomplcache#is_enabled()
+"        execute 'NeoComplCacheDisable'
+"    else
+"        execute 'NeoComplCacheEnable'
+"    endif
+"endfunc
+"
+"map <Leader>neo :call EnableOrDisableNeoCompleCache()<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""
 " => statusline
@@ -484,10 +487,13 @@ let g:Powerline_symbols='unicode'
 set wrap                       " 设置自动折行
 
 
+let g:evervim_devtoken = "S=s5:U=38ab24:E=147aa795492:C=14052c82893:P=1cd:A=en-devtoken:V=2:H=7999d235c25ed10478d475732793d315"
+
 """""""""""""""""""""""""""""""""""""""""""""""""
 " => YouComplete
 """""""""""""""""""""""""""""""""""""""""""""""""
 let g:ycm_confirm_extra_conf = 0  " 不提示确认加载 .ycm_extra_conf.py
+nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""
@@ -496,3 +502,11 @@ let g:ycm_confirm_extra_conf = 0  " 不提示确认加载 .ycm_extra_conf.py
 let g:syntastic_error_symbol='✗'
 let g:syntastic_warning_symbol='⚠'
 let g:syntastic_ignore_files=[".*\.py$"]
+
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""
+" => jedi
+"""""""""""""""""""""""""""""""""""""""""""""""""
+let g:jedi#auto_vim_configuration = 0
+let g:jedi#popup_select_first = 0
