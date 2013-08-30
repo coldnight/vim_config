@@ -134,7 +134,9 @@ let g:ctags_statusline=1
 "set fdm=indent                " 设置代码折叠
 "set fdc=4                     " 设置代码折叠宽度为4个字符
 set wrap                       " 设置自动折行
-colorscheme distinguished      " 设置配色方案
+"colorscheme distinguished      " 设置配色方案
+colorscheme jellybeans
+
 
 if has('cmdline_info')
     set ruler                  " show the ruler
@@ -247,7 +249,7 @@ au FileType python map <buffer> <leader>C ?class
 au FileType python map <buffer> <leader>D ?def
 au FileType python set cuc                        " 显示纵向对齐线
 au FileType python set cc=78                      " 在78列显示对齐线
-au FileType python hi ColorColumn ctermbg=lightgrey
+au FileType python hi ColorColumn ctermbg=darkgray
 au FileType python set tw=78 " python文件文本最长宽度为78
 
 "Python 一键执行
