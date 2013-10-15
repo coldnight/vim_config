@@ -49,6 +49,7 @@ Bundle "davidhalter/jedi"
 Bundle "davidhalter/jedi-vim"
 Bundle "scrooloose/syntastic"
 "Bundle "vim-scripts/Conque-Shell"
+Bundle "peterhoeg/vim-qml"
 
 filetype indent plugin on
 
