@@ -262,10 +262,6 @@ au FileType python set cc=78                      " 在78列显示对齐线
 au FileType python hi ColorColumn ctermbg=darkgray
 au FileType python set tw=78 " python文件文本最长宽度为78
 
-""" 设置各个文件注释字符
-au FileType python set cms="# %s"                 " 设置Python注释字符
-au FileType mako set cms="## %s"
-
 "Python 一键执行
 function CheckPythonSyntax()
     let mp = &makeprg
@@ -535,3 +531,7 @@ map <leader>il :IndentLinesToggle<CR>
 
 """ GitGutter
 map <leader>gg :GitGutterToggle<CR>
+
+""" 设置各个文件注释字符
+autocmd FileType python,shell set commentstring=#\ %s                 " 设置Python注释字符
+autocmd FileType mako set cms=##\ %s
