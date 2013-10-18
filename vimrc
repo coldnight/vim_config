@@ -50,6 +50,15 @@ Bundle "davidhalter/jedi-vim"
 Bundle "scrooloose/syntastic"
 "Bundle "vim-scripts/Conque-Shell"
 Bundle "peterhoeg/vim-qml"
+Bundle "https://github.com/tpope/vim-fugitive.git"
+Bundle "gregsexton/gitv"
+Bundle "Yggdroot/indentLine"
+Bundle "airblade/vim-gitgutter"
+Bundle "jmcantrell/vim-virtualenv"
+"Bundle "bling/vim-airline"
+Bundle "terryma/vim-multiple-cursors"
+Bundle "sophacles/vim-bundle-mako"
+Bundle "tpope/vim-commentary"
 
 filetype indent plugin on
 
@@ -252,6 +261,10 @@ au FileType python set cuc                        " 显示纵向对齐线
 au FileType python set cc=78                      " 在78列显示对齐线
 au FileType python hi ColorColumn ctermbg=darkgray
 au FileType python set tw=78 " python文件文本最长宽度为78
+
+""" 设置各个文件注释字符
+au FileType python set cms="# %s"                 " 设置Python注释字符
+au FileType mako set cms="## %s"
 
 "Python 一键执行
 function CheckPythonSyntax()
@@ -513,3 +526,12 @@ let g:syntastic_ignore_files=[".*\.py$"]
 """""""""""""""""""""""""""""""""""""""""""""""""
 let g:jedi#auto_vim_configuration = 0
 let g:jedi#popup_select_first = 0
+
+
+""" IndentLine
+let g:indentLine_enabled = 1
+map <leader>il :IndentLinesToggle<CR>
+
+
+""" GitGutter
+map <leader>gg :GitGutterToggle<CR>
