@@ -43,9 +43,8 @@ Bundle "drmingdrmer/xptemplate.git"
 Bundle "vim-scripts/Java-Syntax-and-Folding"
 Bundle "plasticboy/vim-markdown"
 Bundle "majutsushi/tagbar"
-Bundle "kakkyz81/evervim"
+" Bundle "kakkyz81/evervim"
 Bundle "Valloric/YouCompleteMe"
-Bundle "davidhalter/jedi"
 Bundle "davidhalter/jedi-vim"
 Bundle "scrooloose/syntastic"
 "Bundle "vim-scripts/Conque-Shell"
@@ -510,8 +509,6 @@ set wrap                       " 设置自动折行
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 
-
-let g:evervim_devtoken = "S=s5:U=38ab24:E=147aa795492:C=14052c82893:P=1cd:A=en-devtoken:V=2:H=7999d235c25ed10478d475732793d315"
 
 """""""""""""""""""""""""""""""""""""""""""""""""
 " => YouComplete
