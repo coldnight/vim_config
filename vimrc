@@ -18,7 +18,7 @@ Bundle 'gmarik/vundle'
 "Bundle "honza/snipmate-snippets"
 "Bundle "garbas/vim-snipmate"
 "Bundle "Shougo/neocomplcache"
-Bundle "Lokaltog/vim-powerline"
+" Bundle "Lokaltog/vim-powerline"
 Bundle "drakeguan/vim-vcscommand"
 Bundle "scrooloose/nerdtree"
 Bundle "pix/vim-taglist"
@@ -50,15 +50,19 @@ Bundle "davidhalter/jedi-vim"
 Bundle "scrooloose/syntastic"
 "Bundle "vim-scripts/Conque-Shell"
 Bundle "peterhoeg/vim-qml"
-Bundle "https://github.com/tpope/vim-fugitive.git"
-Bundle "gregsexton/gitv"
+Bundle "tpope/vim-fugitive.git"
+"Bundle "gregsexton/gitv"
 Bundle "Yggdroot/indentLine"
 Bundle "airblade/vim-gitgutter"
 Bundle "jmcantrell/vim-virtualenv"
-"Bundle "bling/vim-airline"
+Bundle "bling/vim-airline"
 Bundle "terryma/vim-multiple-cursors"
 Bundle "sophacles/vim-bundle-mako"
 Bundle "tpope/vim-commentary"
+Bundle "tpope/vim-surround"
+Bundle "Raimondi/delimitMate"
+Bundle "groenewege/vim-less"
+Bundle "Shougo/vimproc.vim"
 
 filetype indent plugin on
 
@@ -170,6 +174,11 @@ cmap q1 q!
 map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR> " C-\ - Open the definition in a new tab
 nmap <Leader>cs :nohl <CR>      " 清除高亮
 nmap <Leader>b \<C-B>
+
+map <S-j> :tabprev<CR>
+map <S-k> :tabnext<CR>
+map <S-h> :bnext<CR>
+map <S-l> :bprev<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""
 " => VCS key map
@@ -497,6 +506,9 @@ let g:tagbar_ctags_bin = 'ctags'
 set laststatus=2
 let g:Powerline_symbols='unicode'
 set wrap                       " 设置自动折行
+
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
 
 
 let g:evervim_devtoken = "S=s5:U=38ab24:E=147aa795492:C=14052c82893:P=1cd:A=en-devtoken:V=2:H=7999d235c25ed10478d475732793d315"
