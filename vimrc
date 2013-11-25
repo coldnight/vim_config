@@ -62,6 +62,7 @@ Bundle "tpope/vim-surround"
 Bundle "Raimondi/delimitMate"
 Bundle "groenewege/vim-less"
 Bundle "Shougo/vimproc.vim"
+Bundle "Shougo/unite.vim"
 
 filetype indent plugin on
 
@@ -122,7 +123,7 @@ set foldenable
 set autoindent                 " 设置自动缩进
 set smarttab                   " 设置灵巧的tab,tab被替换成空格时,删除将删除整个被替换成tab的空格
 set smartindent                " 设置灵巧的缩进
-set tags=~/.tags/tags          " 设置ctags目录
+set tags=tags          " 设置ctags目录
 set cmdheight=2                " 设置命令行的高度
 set hid                        " 改变缓冲区（不保存）
 set noerrorbells               " 不显示错误声音
@@ -140,6 +141,7 @@ set nocp                       " 不设置 'compatible'
 set guifont=Monaco\ 10         " 设置gui英文字体
 set guifontwide=WenQuanYi\ Zen\ Hei\ 10 " 设置gui等宽字体
 let mapleader=','              " 设置主键为,
+let maplocalleader="<space>"
 let g:ctags_statusline=1
 "set guifont=Bitstream_Vera_Sans_Mono:h10:cANSI
 "set co=130                    " 通过设置列行数来控制窗口的大小
@@ -174,10 +176,10 @@ map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR> " C-\ - Open the def
 nmap <Leader>cs :nohl <CR>      " 清除高亮
 nmap <Leader>b \<C-B>
 
-map <S-j> :tabprev<CR>
-map <S-k> :tabnext<CR>
-map <S-h> :bnext<CR>
-map <S-l> :bprev<CR>
+map <C-k> :tabnext<CR>
+map <C-j> :tabprev<CR>
+map <C-h> :bprev<CR>
+map <C-l> :bnext<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""
 " => VCS key map
@@ -503,10 +505,10 @@ let g:tagbar_ctags_bin = 'ctags'
 " => statusline
 """""""""""""""""""""""""""""""""""""""""""""""""
 set laststatus=2
-let g:Powerline_symbols='unicode'
+let g:Powerline_symbols='fancy'
 set wrap                       " 设置自动折行
 
-let g:airline_powerline_fonts = 1
+" let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 
 
@@ -544,3 +546,59 @@ map <leader>gg :GitGutterToggle<CR>
 """ 设置各个文件注释字符
 autocmd FileType python,shell set commentstring=#\ %s                 " 设置Python注释字符
 autocmd FileType mako set cms=##\ %s
+
+
+""" Unite
+
+noremap <leader>f :<C-u>Unite file<CR>
+noremap <leader>fs :<C-u>Unite -start-insert file<CR>
+noremap <leader>fb :<C-u>Unite file buffer<CR>
+noremap <leader>fbs :<C-u>Unite -start-insert file buffer<CR>
+noremap <leader>fm :<C-u> Unite file_mru<CR>
+noremap <leader>fms :<C-u> Unite -start-insert file_mru<CR>
+nnoremap <silent> <leader>b :<C-u>Unite buffer file_mru bookmark<CR>
+nnoremap <silent> <leader>bs :<C-u>Unite -start-insert buffer file_mru bookmark<CR>
+
+let g:unite_prompt = '>>> '
+let g:unite_ignore_source_files = ["*.pyc"]
+let g:unite_source_history_yank_enable = 1
+nnoremap <leader>y :<C-u>Unite history/yank<CR>
+nnoremap <leader>ys :<C-u>Unite -start-insert history/yank<CR>
+
+let g:unite_source_menu_menus= {"git":{
+    \ 'description' : '            gestionar repositorios git
+        \                            ⌘ [espacio]g',
+    \}}
+let g:unite_source_menu_menus.git= {"command_candidates": [
+    \['▷ tig                                                        ⌘ ,gt',
+        \'normal ,gt'],
+    \['▷ git status       (Fugitive)                                ⌘ ,gs',
+        \'Gstatus'],
+    \['▷ git diff         (Fugitive)                                ⌘ ,gd',
+        \'Gdiff'],
+    \['▷ git commit       (Fugitive)                                ⌘ ,gc',
+        \'Gcommit'],
+    \['▷ git log          (Fugitive)                                ⌘ ,gl',
+        \'exe "silent Glog | Unite quickfix"'],
+    \['▷ git blame        (Fugitive)                                ⌘ ,gb',
+        \'Gblame'],
+    \['▷ git stage        (Fugitive)                                ⌘ ,gw',
+        \'Gwrite'],
+    \['▷ git checkout     (Fugitive)                                ⌘ ,go',
+        \'Gread'],
+    \['▷ git rm           (Fugitive)                                ⌘ ,gr',
+        \'Gremove'],
+    \['▷ git mv           (Fugitive)                                ⌘ ,gm',
+        \'exe "Gmove " input("destino: ")'],
+    \['▷ git push         (Fugitive, salida por buffer)             ⌘ ,gp',
+        \'Git! push'],
+    \['▷ git pull         (Fugitive, salida por buffer)             ⌘ ,gP',
+        \'Git! pull'],
+    \['▷ git prompt       (Fugitive, salida por buffer)             ⌘ ,gi',
+        \'exe "Git! " input("comando git: ")'],
+    \['▷ git cd           (Fugitive)',
+        \'Gcd'],
+    \]}
+nnoremap <silent><leader>g :Unite -silent -start-insert menu:git<CR>
+
+call unite#custom#source("file,file_rec,file_mru,file_rec/async,grep,locate", "ignore_pattern", join(["*\.pyc", "\.git"], "|"))
