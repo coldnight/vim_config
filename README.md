@@ -12,7 +12,7 @@
     :BundleInstall
 
 ### 安装扩展
-    cd ~/.vimr/bundle/jedi/
+    cd ~/.vim/bundle/jedi-vim/jedi
     sudo python setup.py install
 
 ### 编译YouCompleteMe
