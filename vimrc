@@ -19,7 +19,7 @@ Bundle 'gmarik/vundle'
 "Bundle "garbas/vim-snipmate"
 "Bundle "Shougo/neocomplcache"
 " Bundle "Lokaltog/vim-powerline"
-Bundle "drakeguan/vim-vcscommand"
+" Bundle "drakeguan/vim-vcscommand"
 Bundle "scrooloose/nerdtree"
 Bundle "pix/vim-taglist"
 Bundle "nathanaelkane/vim-indent-guides"
