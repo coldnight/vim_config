@@ -45,7 +45,7 @@ Bundle "plasticboy/vim-markdown"
 Bundle "majutsushi/tagbar"
 " Bundle "kakkyz81/evervim"
 Bundle "Valloric/YouCompleteMe"
-Bundle "davidhalter/jedi-vim"
+" Bundle "davidhalter/jedi-vim"
 Bundle "scrooloose/syntastic"
 "Bundle "vim-scripts/Conque-Shell"
 Bundle "peterhoeg/vim-qml"
@@ -63,6 +63,7 @@ Bundle "Raimondi/delimitMate"
 Bundle "groenewege/vim-less"
 Bundle "Shougo/vimproc.vim"
 Bundle "Shougo/unite.vim"
+Bundle "vim-scripts/fcitx.vim"
 
 filetype indent plugin on
 
@@ -149,6 +150,7 @@ let g:ctags_statusline=1
 "set fdm=indent                " 设置代码折叠
 "set fdc=4                     " 设置代码折叠宽度为4个字符
 set wrap                       " 设置自动折行
+" set completeopt=longest,menu   " 不显示Preview
 "colorscheme distinguished      " 设置配色方案
 colorscheme jellybeans
 
