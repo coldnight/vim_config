@@ -64,7 +64,6 @@ Bundle "Raimondi/delimitMate"
 Bundle "groenewege/vim-less"
 Bundle "Shougo/vimproc.vim"
 Bundle "Shougo/unite.vim"
-Bundle "vim-scripts/fcitx.vim"
 
 filetype indent plugin on
 
