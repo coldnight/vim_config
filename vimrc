@@ -65,6 +65,8 @@ Bundle "groenewege/vim-less"
 Bundle "Shougo/vimproc.vim"
 Bundle "Shougo/unite.vim"
 Bundle "vimwiki/vimwiki"
+Bundle "mattn/webapi-vim"
+Bundle "mattn/gist-vim"
 
 filetype indent plugin on
 
