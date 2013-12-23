@@ -64,6 +64,7 @@ Bundle "Raimondi/delimitMate"
 Bundle "groenewege/vim-less"
 Bundle "Shougo/vimproc.vim"
 Bundle "Shougo/unite.vim"
+Bundle "vimwiki/vimwiki"
 
 filetype indent plugin on
 
@@ -382,10 +383,7 @@ map <silent> <F2> :if &guioptions =~# 'T' <Bar>
 """"""""""""""""""""""""""""""
 " HTML
 """"""""""""""""""""""""""""""
-au FileType xhtml set tw=0
-au FileType html set tw=0
-au FileType jinja set tw=0
-au FileType xml set tw=0
+au FileType xhtml,html,jinja,xml,htmldjango set tw=0
 
 
 """"""""""""""""""""""""""""""
