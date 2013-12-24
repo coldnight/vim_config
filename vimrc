@@ -40,7 +40,7 @@ Bundle "vim-scripts/AuthorInfo"
 Bundle "vim-scripts/javacomplete"
 Bundle "vim-scripts/javaDoc.vim"
 Bundle "drmingdrmer/xptemplate.git"
-Bundle "vim-scripts/Java-Syntax-and-Folding"
+" Bundle "vim-scripts/Java-Syntax-and-Folding"
 Bundle "vim-scripts/fcitx.vim"
 Bundle "plasticboy/vim-markdown"
 Bundle "majutsushi/tagbar"
@@ -604,3 +604,11 @@ let g:unite_source_menu_menus.git= {"command_candidates": [
 nnoremap <silent><leader>g :Unite -silent -start-insert menu:git<CR>
 
 call unite#custom#source("file,file_rec,file_mru,file_rec/async,grep,locate", "ignore_pattern", join(["*\.pyc", "\.git"], "|"))
+
+"" Vimwiki
+let g:vimwiki_camel_case = 0
+let g:vimwiki_CJK_length = 1
+let g:vimwiki_list = [{'path': '~/vimwiki',
+\    'path_html': '~/vimwiki_html',
+\    'template_path': '~/vimwiki/template',
+\    'template_default': "default.tpl"}]
