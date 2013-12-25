@@ -13,11 +13,11 @@ filetype off
 set rtp+=~/.vim/bundle/vundle
 call vundle#rc()
 Bundle 'gmarik/vundle'
-"Bundle "MarcWeber/vim-addon-mw-utils"
-"Bundle "tomtom/tlib_vim"
-"Bundle "honza/snipmate-snippets"
-"Bundle "garbas/vim-snipmate"
-"Bundle "Shougo/neocomplcache"
+" Bundle "MarcWeber/vim-addon-mw-utils"
+" Bundle "tomtom/tlib_vim"
+" Bundle "honza/snipmate-snippets"
+" Bundle "garbas/vim-snipmate"
+" Bundle "Shougo/neocomplcache"
 " Bundle "Lokaltog/vim-powerline"
 " Bundle "drakeguan/vim-vcscommand"
 Bundle "scrooloose/nerdtree"
@@ -37,9 +37,6 @@ Bundle "vim-scripts/Python-mode-klen"
 Bundle "vim-scripts/VOoM"
 Bundle "vim-scripts/qiushibaike"
 Bundle "vim-scripts/AuthorInfo"
-Bundle "vim-scripts/javacomplete"
-Bundle "vim-scripts/javaDoc.vim"
-Bundle "drmingdrmer/xptemplate.git"
 " Bundle "vim-scripts/Java-Syntax-and-Folding"
 Bundle "vim-scripts/fcitx.vim"
 Bundle "plasticboy/vim-markdown"
@@ -67,6 +64,7 @@ Bundle "Shougo/unite.vim"
 Bundle "vimwiki/vimwiki"
 Bundle "mattn/webapi-vim"
 Bundle "mattn/gist-vim"
+Bundle "vim-scripts/vimgtd--nianyang"
 
 filetype indent plugin on
 
@@ -520,6 +518,11 @@ let g:airline#extensions#tabline#enabled = 1
 let g:ycm_confirm_extra_conf = 0  " 不提示确认加载 .ycm_extra_conf.py
 nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
+let g:ycm_filetype_black_list = {
+            \ 'vimwiki': 1,
+            \ }
+
+let g:ycm_autoclose_preview_window_after_completion = 1
 
 """""""""""""""""""""""""""""""""""""""""""""""""
 " => syntastic
