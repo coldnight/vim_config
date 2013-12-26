@@ -64,7 +64,8 @@ Bundle "Shougo/unite.vim"
 Bundle "vimwiki/vimwiki"
 Bundle "mattn/webapi-vim"
 Bundle "mattn/gist-vim"
-Bundle "vim-scripts/vimgtd--nianyang"
+" Bundle "vim-scripts/vimgtd--nianyang"
+Bundle "drmingdrmer/xptemplate"
 
 filetype indent plugin on
 
@@ -383,7 +384,7 @@ map <silent> <F2> :if &guioptions =~# 'T' <Bar>
 """"""""""""""""""""""""""""""
 " HTML
 """"""""""""""""""""""""""""""
-au FileType xhtml,html,jinja,xml,htmldjango set tw=0
+au FileType xhtml,html,jinja,xml,htmldjango,javascript,jquery set tw=0
 
 
 """"""""""""""""""""""""""""""
@@ -551,6 +552,7 @@ map <leader>gg :GitGutterToggle<CR>
 """ 设置各个文件注释字符
 autocmd FileType python,shell set commentstring=#\ %s                 " 设置Python注释字符
 autocmd FileType mako set cms=##\ %s
+autocmd FileType jquery set cms=//\ %s
 
 
 """ Unite
