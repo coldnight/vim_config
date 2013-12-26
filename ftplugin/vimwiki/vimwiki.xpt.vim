@@ -19,7 +19,7 @@ XPT start
 START=``strftime("%Y-%m-%d")`^
 
 XPT detail
-DETAIL=[[`detail/`stftime("%Y%m%d_%H%M%S")`^|`detail^]]
+DETAIL=[[`detail/`strftime("%Y%m%d_%H%M%S")`^|`detail^]]
 
 XPT tpl
 = Inbox =
