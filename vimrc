@@ -61,7 +61,8 @@ Bundle "Raimondi/delimitMate"
 Bundle "groenewege/vim-less"
 Bundle "Shougo/vimproc.vim"
 Bundle "Shougo/unite.vim"
-Bundle "vimwiki/vimwiki"
+" Bundle "vimwiki/vimwiki"
+Bundle "coldnight/vimwiki"
 Bundle "mattn/webapi-vim"
 Bundle "mattn/gist-vim"
 " Bundle "vim-scripts/vimgtd--nianyang"
@@ -613,7 +614,12 @@ call unite#custom#source("file,file_rec,file_mru,file_rec/async,grep,locate", "i
 "" Vimwiki
 let g:vimwiki_camel_case = 0
 let g:vimwiki_CJK_length = 1
+let g:vimwiki_valid_html_tags = 'div, span, table, td, pre, tr'
 let g:vimwiki_list = [{'path': '~/vimwiki',
 \    'path_html': '~/vimwiki_html',
 \    'template_path': '~/vimwiki/template',
-\    'template_default': "default.tpl"}]
+\    'template_default': "default",
+\    'template_ext': '.tpl',
+\    'nested_syntaxes': {'python': 'python', 'c': 'c', 'bash': 'shell', 'shell': 'shell'},
+\    'use_pygments': 1,
+\ }]
