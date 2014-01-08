@@ -525,6 +525,9 @@ let g:ycm_filetype_black_list = {
             \ }
 
 let g:ycm_autoclose_preview_window_after_completion = 1
+let g:ycm_key_invoke_completion = '<C-Space>'
+let g:ycm_semantic_triggers = {}
+let g:ycm_semantic_triggers.c = ['->', '.', ' ']
 
 """""""""""""""""""""""""""""""""""""""""""""""""
 " => syntastic
