@@ -366,6 +366,7 @@ map <silent> <F2> :if &guioptions =~# 'T' <Bar>
 " HTML
 """"""""""""""""""""""""""""""
 au FileType xhtml,html,jinja,xml,htmldjango,javascript,jquery set tw=0
+au FileType xhtml,html,jinja,xml,htmldjango,javascript,jquery set sw=2
 
 
 """"""""""""""""""""""""""""""
