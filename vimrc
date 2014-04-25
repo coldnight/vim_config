@@ -99,7 +99,7 @@ set scrolljump=5               " 光标距离顶/底部多少行时滚动
 set scrolloff=3                " 设置光标具上/下多少行是屏幕滚动
 set gdefault                   " 改变s命令状态,设置为全部替换
 set list
-set ignorecase                 " 搜索时呼略大小写
+" set ignorecase                 " 搜索时呼略大小写
 set hlsearch                   " 高亮搜索项
 set incsearch                  " 当输入时就搜索
 set showmatch                  " show matching brackets/parenthesis
@@ -122,8 +122,10 @@ set tabstop=4                  " tab宽度
 set shiftwidth=4               " tab自动缩进宽度
 set cursorline                 " 设置高亮当前行
 set nocp                       " 不设置 'compatible'
-set guifont=Monaco\ 10         " 设置gui英文字体
-set guifontwide=WenQuanYi\ Zen\ Hei\ 10 " 设置gui等宽字体
+set noundofile                 " 不创建回退文件"
+set guifont=Monaco\ YaHei\ 11         " 设置gui英文字体
+set guifontwide=Monaco\ YaHei\ 11         " 设置gui英文字体
+" set guifontwide=WenQuanYi\ Zen\ Hei\ 10 " 设置gui等宽字体
 let mapleader=','              " 设置主键为,
 let maplocalleader="<space>"
 let g:ctags_statusline=1
@@ -160,6 +162,8 @@ cmap q1 q!
 map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR> " C-\ - Open the definition in a new tab
 nmap <Leader>cs :nohl <CR>      " 清除高亮
 nmap <Leader>b \<C-B>
+nmap <Leader>pla :PymodeLintAuto <CR>
+nmap <Leader>plt :PymodeLintToggle <CR>
 
 map <C-k> :tabnext<CR>
 map <C-j> :tabprev<CR>
@@ -183,10 +187,13 @@ nmap <leader>vu :VCSUpdate<CR>
 if (has("gui_running"))
     "图形界面下的设置
     "set guioptions+=b
-    set background=dark
-    colorscheme solarized
+    " set background=dark
+    " colorscheme solarized
     "设置初始宽度
-    set columns=95 lines=40
+    " set columns=95 lines=40
+    " 禁用左右两侧滚动条
+    set guioptions-=L
+    set guioptions-=r
 else
     "字符界面的下跌设置
     set t_Co=256
@@ -195,12 +202,12 @@ endif
 """""""""""""""""""""""""""""""
 " => Pytho mode
 """""""""""""""""""""""""""""""
-let g:pymode_lint_write = 0
 let g:pymode_doc = 1
 autocmd FileType python let g:pymode_doc_key = 'K'
 autocmd FileType python let g:pymode_run = 1
 let g:pymode_folding = 0
 let g:pymode_lint = 1
+let g:pymode_lint_write = 0
 let g:pymode_lint_checker="pyflakes,pep8,mccabe"
 let g:pymode_lint_onfly=0
 let g:pymode_lint_config=$HOME."/.pylintrc"
@@ -211,6 +218,7 @@ let g:pymode_lint_signs = 1
 let g:pymode_lint_mccabe_complexity = 8
 let g:pymode_lint_minheight = 3
 let g:pymode_lint_maxheight = 1
+let g:pymode_lint_ignore = "E127, W, W0401"
 let g:pymode_rope = 1
 let g:pymode_rope_enable_autoimport = 1
 let g:pymode_rope_autoimport_generate = 1
@@ -222,14 +230,14 @@ let g:pymode_rope_autoimport_modules = ["os","shutil","datetime"]
 let g:pymode_rope_confirm_saving = 1
 let g:pymode_rope_global_prefix = "<C-x>p"
 let g:pymode_rope_local_prefix = "<C-c>r"
-let g:pymode_rope_vim_completion = 1
-let g:pymode_rope_guess_project = 1
+let g:pymode_rope_vim_completion = 0
+let g:pymode_rope_completion = 0
+let g:pymode_rope_guess_project = 0
 let g:pymode_rope_goto_def_newwin = ""
 let g:pymode_rope_always_show_complete_menu = 0
 let g:pymode_motion = 1
 let g:pymode_syntax = 1
 let g:pymode_syntax_all = 1
-let g:pymode_rope_vim_completion = 1
 
 
 
@@ -366,7 +374,7 @@ map <silent> <F2> :if &guioptions =~# 'T' <Bar>
 " HTML
 """"""""""""""""""""""""""""""
 au FileType xhtml,html,jinja,xml,htmldjango,javascript,jquery set tw=0
-au FileType xhtml,html,jinja,xml,htmldjango,javascript,jquery set sw=2
+au FileType xhtml,html,jinja,xml,htmldjango set sw=2
 
 
 """"""""""""""""""""""""""""""
@@ -507,15 +515,15 @@ let g:ycm_filetype_black_list = {
 
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_key_invoke_completion = '<C-Space>'
-let g:ycm_semantic_triggers = {}
-let g:ycm_semantic_triggers.c = ['->', '.', ' ', '(', '[', '&']
+" let g:ycm_semantic_triggers.c = ['->', '.', ' ', '(', '[', '&']
+let g:EclimCompletionMethod = 'omnifunc'
 
 """""""""""""""""""""""""""""""""""""""""""""""""
 " => syntastic
 """""""""""""""""""""""""""""""""""""""""""""""""
 let g:syntastic_error_symbol='✗'
 let g:syntastic_warning_symbol='⚠'
-let g:syntastic_ignore_files=[".*\.py$"]
+let g:syntastic_ignore_files=[".*\.py$", ".*\.html$"]
 
 
 
