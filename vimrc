@@ -214,6 +214,7 @@ let g:pymode_lint_config=$HOME."/.pylintrc"
 let g:pymode_lint_message=1
 let g:pymode_lint_jump = 0
 let g:pymode_lint_hold = 0
+let g:pymode_lint_cwindow = 0
 let g:pymode_lint_signs = 1
 let g:pymode_lint_mccabe_complexity = 8
 let g:pymode_lint_minheight = 3
