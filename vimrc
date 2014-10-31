@@ -22,7 +22,8 @@ Bundle "kevinw/pyflakes-vim"
 Bundle "mbriggs/mark.vim"
 Bundle "vim-scripts/DrawIt"
 Bundle "vim-scripts/calendar.vim--Matsumoto"
-Bundle "vim-scripts/Python-mode-klen"
+"Bundle "vim-scripts/Python-mode-klen"
+Bundle "klen/python-mode"
 Bundle "vim-scripts/VOoM"
 Bundle "vim-scripts/fcitx.vim"
 Bundle "plasticboy/vim-markdown"
@@ -47,6 +48,9 @@ Bundle "coldnight/vimwiki"
 Bundle "mattn/webapi-vim"
 Bundle "mattn/gist-vim"
 Bundle "drmingdrmer/xptemplate"
+Bundle "Shougo/neomru.vim"
+Bundle "b4winckler/vim-objc"
+Bundle "msanders/cocoa.vim"
 
 filetype indent plugin on
 
@@ -107,7 +111,7 @@ set foldenable
 set autoindent                 " 设置自动缩进
 set smarttab                   " 设置灵巧的tab,tab被替换成空格时,删除将删除整个被替换成tab的空格
 set smartindent                " 设置灵巧的缩进
-set tags=tags          " 设置ctags目录
+set tags=.tags                 " 设置ctags 文件
 set cmdheight=2                " 设置命令行的高度
 set hid                        " 改变缓冲区（不保存）
 set noerrorbells               " 不显示错误声音
@@ -153,8 +157,6 @@ endif
 " => key map
 """"""""""""""""""""""""""""""""""""""""""""""""
 " 定义命令别名
-cmap W w
-cmap w' w
 cmap WQ wq
 cmap wq1 wq!
 cmap qa1 qa!
@@ -169,6 +171,9 @@ map <C-k> :tabnext<CR>
 map <C-j> :tabprev<CR>
 map <C-h> :bprev<CR>
 map <C-l> :bnext<CR>
+imap <C-3> <Esc>
+
+
 
 """""""""""""""""""""""""""""""""""""""""""""""
 " => VCS key map
@@ -220,9 +225,9 @@ let g:pymode_lint_mccabe_complexity = 8
 let g:pymode_lint_minheight = 3
 let g:pymode_lint_maxheight = 1
 let g:pymode_lint_ignore = "E127, W, W0401"
-let g:pymode_rope = 1
-let g:pymode_rope_enable_autoimport = 1
-let g:pymode_rope_autoimport_generate = 1
+let g:pymode_rope = 0
+let g:pymode_rope_enable_autoimport = 0
+let g:pymode_rope_autoimport_generate = 0
 let g:pymode_rope_autoimport_underlineds = 0
 let g:pymode_rope_codeassist_maxfixes = 10
 let g:pymode_rope_sorted_completions = 1
@@ -255,7 +260,7 @@ au BufNewFile,BufRead *.wsgi set ft=python
 
 au FileType python inoremap <buffer> $r return
 au FileType python inoremap <buffer> $i import
-au FileType python inoremap <buffer> $p import pdb;pdb.set_trace()
+au FileType python inoremap <buffer> $p import pudb;pudb.set_trace()
 au FileType python inoremap <buffer> $f #--- PH ----------------------------------------------<esc>FP2xi
 au FileType python map <buffer> <leader>1 /class
 au FileType python map <buffer> <leader>2 /def
@@ -282,8 +287,8 @@ endfunction
 map <F5> :w<cr>
 map <F5> :call CheckPythonSyntax()<cr>
 
-let currPath = strpart(expand("%:p"), 0, 18)
-if currPath == "/data/home/wh/jobs"
+let currPath = strpart(expand("%:p"), 0, 14)
+if currPath == "/Users/wh/jobs"
     let g:python_author = 'wh'
 else
     let g:python_author = 'cold'
@@ -314,6 +319,8 @@ function InsertPythonComment()
     call setline('.', '#   Desc    :   ')
     normal o
     call setline('.', '#')
+    normal o
+    call setline('.', 'from __future__ import absolute_import, print_function, division, with_statement')
     call cursor(7, 17)
 endfunction
 " F4 添加Python注释
@@ -374,8 +381,8 @@ map <silent> <F2> :if &guioptions =~# 'T' <Bar>
 """"""""""""""""""""""""""""""
 " HTML
 """"""""""""""""""""""""""""""
-au FileType xhtml,html,jinja,xml,htmldjango,javascript,jquery set tw=0
-au FileType xhtml,html,jinja,xml,htmldjango set sw=2
+" au FileType xhtml,html,jinja,xml,htmldjango,javascript,jquery set tw=0
+" au FileType xhtml,html,jinja,xml,htmldjango set sw=2
 
 
 """"""""""""""""""""""""""""""
@@ -411,11 +418,10 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 " => TagList
 """"""""""""""""""""""""""""""""""""""""
 map <F3> :silent! Tlist<CR>
-let Tlist_Ctags_Cmd='ctags'
+let Tlist_Ctags_Cmd='/usr/local/Cellar/ctags/5.8/bin/ctags'
 let Tlist_Auto_Update=1
 let Tlist_Use_Right_Window=1
 let Tlist_Show_One_file=0
-let Tlist_Exit_OnlyWindow=1
 let Tlist_Process_File_Always=1
 let Tlist_Inc_Winwidth=0
 let Tlist_Exit_OnlyWindow=1
@@ -425,7 +431,7 @@ autocmd FileType c,cpp,java,php,js,python,twig,xml,yml autocmd BufWritePre <buff
 " => TagBar
 """""""""""""""""""""""""""""""""""""""""
 map <silent> <F3> :TagbarToggle<CR>
-let g:tagbar_ctags_bin = 'ctags'
+let g:tagbar_ctags_bin = '/usr/local/Cellar/ctags/5.8/bin/ctags'
 
 
 """""""""""""""""""""""""""""""""""""""""
