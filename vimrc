@@ -17,16 +17,16 @@ Bundle "scrooloose/nerdtree"
 Bundle "pix/vim-taglist"
 Bundle "nathanaelkane/vim-indent-guides"
 Bundle "clones/vim-cecutil"
-Bundle "jnwhiteh/vim-golang"
-Bundle "kevinw/pyflakes-vim"
+Bundle "fatih/vim-go"
+Bundle "nvie/vim-flake8"
+" Bundle "kevinw/pyflakes-vim"
 Bundle "mbriggs/mark.vim"
 Bundle "vim-scripts/DrawIt"
 Bundle "vim-scripts/calendar.vim--Matsumoto"
-"Bundle "vim-scripts/Python-mode-klen"
 Bundle "klen/python-mode"
 Bundle "vim-scripts/VOoM"
 Bundle "vim-scripts/fcitx.vim"
-Bundle "plasticboy/vim-markdown"
+" Bundle "plasticboy/vim-markdown"
 Bundle "majutsushi/tagbar"
 Bundle "Valloric/YouCompleteMe"
 Bundle "scrooloose/syntastic"
@@ -51,6 +51,10 @@ Bundle "drmingdrmer/xptemplate"
 Bundle "Shougo/neomru.vim"
 Bundle "b4winckler/vim-objc"
 Bundle "msanders/cocoa.vim"
+Bundle "wting/rust.vim"
+Bundle 'rizzatti/dash.vim'
+Bundle "jphustman/SQLUtilities"
+Bundle "jphustman/Align.vim"
 
 filetype indent plugin on
 
@@ -138,9 +142,10 @@ let g:ctags_statusline=1
 "set lines=100
 "set fdm=indent                " 设置代码折叠
 "set fdc=4                     " 设置代码折叠宽度为4个字符
-set wrap                       " 设置自动折行
+" set wrap                       " 设置自动折行
 " set completeopt=longest,menu   " 不显示Preview
 "colorscheme distinguished      " 设置配色方案
+
 colorscheme jellybeans
 
 
@@ -207,14 +212,15 @@ endif
 """""""""""""""""""""""""""""""
 " => Pytho mode
 """""""""""""""""""""""""""""""
-let g:pymode_doc = 1
-autocmd FileType python let g:pymode_doc_key = 'K'
+let g:pymode_doc = 0
+autocmd FileType python let g:pymode_doc_key = '<C-c>K'
 autocmd FileType python let g:pymode_run = 1
+au! FileType python setl nosmartindent
 let g:pymode_folding = 0
-let g:pymode_lint = 1
+let g:pymode_lint = 0
 let g:pymode_lint_write = 0
-let g:pymode_lint_checker="pyflakes,pep8,mccabe"
-let g:pymode_lint_onfly=0
+let g:pymode_lint_checker=["pyflakes" , "pep8", "mccabe" , "pylint", "pep257"]
+let g:pymode_lint_on_fly=0
 let g:pymode_lint_config=$HOME."/.pylintrc"
 let g:pymode_lint_message=1
 let g:pymode_lint_jump = 0
@@ -224,7 +230,7 @@ let g:pymode_lint_signs = 1
 let g:pymode_lint_mccabe_complexity = 8
 let g:pymode_lint_minheight = 3
 let g:pymode_lint_maxheight = 1
-let g:pymode_lint_ignore = "E127, W, W0401"
+let g:pymode_lint_ignore = "E127,W,W0401"
 let g:pymode_rope = 0
 let g:pymode_rope_enable_autoimport = 0
 let g:pymode_rope_autoimport_generate = 0
@@ -244,6 +250,8 @@ let g:pymode_rope_always_show_complete_menu = 0
 let g:pymode_motion = 1
 let g:pymode_syntax = 1
 let g:pymode_syntax_all = 1
+let g:pymode_syntax_print_as_function = 1
+let g:pymode_breakpoint_cmd = "import pudb;pudb.set_trace()"
 
 
 
@@ -308,23 +316,23 @@ function InsertPythonComment()
     normal o
     call setline('.', '# -*- coding:utf-8 -*-')
     normal o
-    call setline('.', '#')
+    " call setline('.', '#')
+    " normal o
+    " call setline('.', '#   Author  :   '.g:python_author)
+    " normal o
+    " call setline('.', '#   E-mail  :   '.g:python_email)
+    " normal o
+    " call setline('.', '#   Date    :   '.strftime("%y/%m/%d %H:%M:%S"))
+    " normal o
+    " call setline('.', '#   Desc    :   ')
+    " normal o
+    call setline('.', '""" """')
     normal o
-    call setline('.', '#   Author  :   '.g:python_author)
-    normal o
-    call setline('.', '#   E-mail  :   '.g:python_email)
-    normal o
-    call setline('.', '#   Date    :   '.strftime("%y/%m/%d %H:%M:%S"))
-    normal o
-    call setline('.', '#   Desc    :   ')
-    normal o
-    call setline('.', '#')
-    normal o
-    call setline('.', 'from __future__ import absolute_import, print_function, division, with_statement')
-    call cursor(7, 17)
+    call setline('.', 'from __future__ import absolute_import, print_function, division')
+    call cursor(3, 4)
 endfunction
 " F4 添加Python注释
-au FileType python map <F4> :call InsertPythonComment()<cr>
+" au FileType python map <F4> :call InsertPythonComment()<cr>
 
 function InsertCommentWhenOpen()
     if line('$') == 1 && getline(1) == ''
@@ -381,7 +389,7 @@ map <silent> <F2> :if &guioptions =~# 'T' <Bar>
 """"""""""""""""""""""""""""""
 " HTML
 """"""""""""""""""""""""""""""
-" au FileType xhtml,html,jinja,xml,htmldjango,javascript,jquery set tw=0
+au FileType xhtml,html,jinja,xml,htmldjango,javascript,jquery set tw=0
 " au FileType xhtml,html,jinja,xml,htmldjango set sw=2
 
 
@@ -504,7 +512,7 @@ let g:tagbar_ctags_bin = '/usr/local/Cellar/ctags/5.8/bin/ctags'
 """""""""""""""""""""""""""""""""""""""""""""""""
 set laststatus=2
 let g:Powerline_symbols='fancy'
-set wrap                       " 设置自动折行
+set nowrap                       " 设置自动折行
 
 " let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
@@ -619,9 +627,16 @@ let g:vimwiki_list = [{'path': '~/vimwiki',
 \    'template_path': '~/vimwiki/template',
 \    'template_default': "default",
 \    'template_ext': '.tpl',
-\    'nested_syntaxes': {'python': 'python', 
+\    'nested_syntaxes': {'python': 'python', 'rust': 'rust',
 \                        'c': 'c', 'bash': 'shell', 
 \                        'shell': 'shell', 'vim': 'vim',
 \                        'vimscript': 'vim'},
 \    'use_pygments': 1,
 \ }]
+
+
+"" SQLUtilies
+let g:sqlutil_wrap_long_lines = 1
+let g:sqlutil_wrap_function_calls = 1
+let g:sqlutil_align_keyword_right = 1
+let g:sqlutil_align_first_word = 0
