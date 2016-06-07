@@ -25,7 +25,7 @@ Bundle "vim-scripts/DrawIt"
 Bundle "vim-scripts/calendar.vim--Matsumoto"
 Bundle "klen/python-mode"
 Bundle "vim-scripts/VOoM"
-Bundle "vim-scripts/fcitx.vim"
+Bundle "CodeFalling/fcitx-vim-osx"
 " Bundle "plasticboy/vim-markdown"
 Bundle "majutsushi/tagbar"
 Bundle "Valloric/YouCompleteMe"
@@ -55,6 +55,8 @@ Bundle "wting/rust.vim"
 Bundle 'rizzatti/dash.vim'
 Bundle "jphustman/SQLUtilities"
 Bundle "jphustman/Align.vim"
+Bundle "coldnight/pretty_json.vim"
+Bundle "kylef/apiblueprint.vim"
 
 filetype indent plugin on
 
@@ -94,6 +96,7 @@ set ruler                      " 打开状态栏标尺
 set nobackup                   " 覆盖文件时不备份
 set history=1000               " 设置命令历史
 set autoread                   " 当文件被改动时自动加载
+set synmaxcol=250              " 搜索语法项目最大列数, 解决长行卡顿问题
 autocmd! bufwritepost vimrc source ~/.vimrc  " 当vimrc改动时，自动加载
 set imcmdline                  " 解决右键菜单乱码
 "set diffexpr=MyDiff()
@@ -538,7 +541,7 @@ let g:EclimCompletionMethod = 'omnifunc'
 """""""""""""""""""""""""""""""""""""""""""""""""
 let g:syntastic_error_symbol='✗'
 let g:syntastic_warning_symbol='⚠'
-let g:syntastic_ignore_files=[".*\.py$", ".*\.html$"]
+let g:syntastic_ignore_files=[".*\.py$", ".*\.html$", ".*\.java$"]
 
 
 
