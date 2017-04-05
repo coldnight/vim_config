@@ -18,7 +18,7 @@ Bundle "pix/vim-taglist"
 Bundle "nathanaelkane/vim-indent-guides"
 Bundle "clones/vim-cecutil"
 Bundle "fatih/vim-go"
-Bundle "nvie/vim-flake8"
+" Bundle "nvie/vim-flake8"
 " Bundle "kevinw/pyflakes-vim"
 Bundle "mbriggs/mark.vim"
 Bundle "vim-scripts/DrawIt"
@@ -29,7 +29,7 @@ Bundle "CodeFalling/fcitx-vim-osx"
 " Bundle "plasticboy/vim-markdown"
 Bundle "majutsushi/tagbar"
 Bundle "Valloric/YouCompleteMe"
-Bundle "scrooloose/syntastic"
+" Bundle "scrooloose/syntastic"
 Bundle "peterhoeg/vim-qml"
 Bundle "tpope/vim-fugitive.git"
 Bundle "Yggdroot/indentLine"
@@ -51,12 +51,19 @@ Bundle "drmingdrmer/xptemplate"
 Bundle "Shougo/neomru.vim"
 Bundle "b4winckler/vim-objc"
 Bundle "msanders/cocoa.vim"
-Bundle "wting/rust.vim"
+Bundle "rust-lang/rust.vim"
 Bundle 'rizzatti/dash.vim'
 Bundle "jphustman/SQLUtilities"
 Bundle "jphustman/Align.vim"
 Bundle "coldnight/pretty_json.vim"
 Bundle "kylef/apiblueprint.vim"
+Bundle 'junkblocker/patchreview-vim'
+Bundle 'codegram/vim-codereview'
+Bundle "cespare/vim-toml"
+Bundle "w0rp/ale"
+Bundle "junegunn/goyo.vim"
+Bundle "amix/vim-zenroom2"
+Bundle "pangloss/vim-javascript"
 
 filetype indent plugin on
 
@@ -147,9 +154,10 @@ let g:ctags_statusline=1
 "set fdc=4                     " 设置代码折叠宽度为4个字符
 " set wrap                       " 设置自动折行
 " set completeopt=longest,menu   " 不显示Preview
-"colorscheme distinguished      " 设置配色方案
+" colorscheme distinguished      " 设置配色方案
 
-colorscheme jellybeans
+" colorscheme jellybeans
+colorscheme valloric
 
 
 if has('cmdline_info')
@@ -222,7 +230,7 @@ au! FileType python setl nosmartindent
 let g:pymode_folding = 0
 let g:pymode_lint = 0
 let g:pymode_lint_write = 0
-let g:pymode_lint_checker=["pyflakes" , "pep8", "mccabe" , "pylint", "pep257"]
+let g:pymode_lint_checker=[]
 let g:pymode_lint_on_fly=0
 let g:pymode_lint_config=$HOME."/.pylintrc"
 let g:pymode_lint_message=1
@@ -234,10 +242,10 @@ let g:pymode_lint_mccabe_complexity = 8
 let g:pymode_lint_minheight = 3
 let g:pymode_lint_maxheight = 1
 let g:pymode_lint_ignore = "E127,W,W0401"
-let g:pymode_rope = 0
-let g:pymode_rope_enable_autoimport = 0
-let g:pymode_rope_autoimport_generate = 0
-let g:pymode_rope_autoimport_underlineds = 0
+let g:pymode_rope = 1
+let g:pymode_rope_enable_autoimport = 1
+let g:pymode_rope_autoimport_generate = 1
+let g:pymode_rope_autoimport_underlineds = 1
 let g:pymode_rope_codeassist_maxfixes = 10
 let g:pymode_rope_sorted_completions = 1
 let g:pymode_rope_extended_complete = 1
@@ -250,6 +258,7 @@ let g:pymode_rope_completion = 0
 let g:pymode_rope_guess_project = 0
 let g:pymode_rope_goto_def_newwin = ""
 let g:pymode_rope_always_show_complete_menu = 0
+let g:pymode_rope_regenerate_on_write = 0
 let g:pymode_motion = 1
 let g:pymode_syntax = 1
 let g:pymode_syntax_all = 1
@@ -301,8 +310,10 @@ map <F5> :call CheckPythonSyntax()<cr>
 let currPath = strpart(expand("%:p"), 0, 14)
 if currPath == "/Users/wh/jobs"
     let g:python_author = 'wh'
+    let g:python_import = 'from __future__ import unicode_literals, print_function, division'
 else
     let g:python_author = 'cold'
+    let g:python_import = 'from __future__ import print_function, division, unicode_literals'
 endif
 
 let g:python_email  = 'wh_linux@126.com'
@@ -331,7 +342,7 @@ function InsertPythonComment()
     " normal o
     call setline('.', '""" """')
     normal o
-    call setline('.', 'from __future__ import absolute_import, print_function, division')
+    call setline('.', g:python_import)
     call cursor(3, 4)
 endfunction
 " F4 添加Python注释
@@ -350,6 +361,9 @@ au FileType python map <C-k> :call search('^\s*def\ ', 'wb')<cr>
 au FileType python map <Leader>j :call search('^\s*class\ ', "w")<cr>
 au FileType python map <Leader>k :call search('^\s*class\ ', "wb")<cr>
 
+" Python 文件保存时执行 Flake8 检查代码
+" autocmd BufWritePost *.py call Flake8()
+
 
 """"""""""""""""""""""""""""""
 " => JavaScript section
@@ -364,8 +378,6 @@ au FileType javascript imap <c-a> alert();<esc>hi
 au FileType javascript inoremap <buffer> $r return
 au FileType javascript inoremap <buffer> $f //--- PH ----------------------------------------------<esc>FP2xi
 
-"au BufRead,BufNewFile *.js set syntax=jquery
-au FileType javascript set ft=jquery
 let g:SimpleJsIndenter_BriefMode=1
 
 function! JavaScriptFold()
@@ -429,7 +441,7 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 " => TagList
 """"""""""""""""""""""""""""""""""""""""
 map <F3> :silent! Tlist<CR>
-let Tlist_Ctags_Cmd='/usr/local/Cellar/ctags/5.8/bin/ctags'
+let Tlist_Ctags_Cmd='/usr/local/bin/ctags'
 let Tlist_Auto_Update=1
 let Tlist_Use_Right_Window=1
 let Tlist_Show_One_file=0
@@ -442,73 +454,8 @@ autocmd FileType c,cpp,java,php,js,python,twig,xml,yml autocmd BufWritePre <buff
 " => TagBar
 """""""""""""""""""""""""""""""""""""""""
 map <silent> <F3> :TagbarToggle<CR>
-let g:tagbar_ctags_bin = '/usr/local/Cellar/ctags/5.8/bin/ctags'
+let g:tagbar_ctags_bin = '/usr/local/bin/ctags'
 
-
-"""""""""""""""""""""""""""""""""""""""""
-" complete
-"""""""""""""""""""""""""""""""""""""""""
-"let g:neocomplcache_enable_at_startup=0  " 自动加载neocomplcache
-"let g:neocomplcache_enable_samrt_case=1  " 启动灵巧补全
-"let g:neocomplcache_enable_cmel_case_completion=1
-"let g:neocomplcache_enable_underbar_completion=1
-"let g:neocomplcache_min_syntax_length=3  " 3个字符开始补全
-"let g:neocomplacche_lock_buffer_name_pattern='\*ku\*'
-"let g:neocomplcache_enable_auto_select=1
-"let g:neocomplcache_enable_quick_match=1
-"let g:neocomplcache_dictionary_filetype_lists={
-"    \ 'default':'',
-"    \ 'vimshell':$HOME.'/.vimshell_hist',
-"    \ 'scheme':$HOME.'/.gosh_completions',
-"    \ 'css': $HOME.'/.vim/dict/css.dic',
-"    \ 'php': $HOME.'/.vim/dict/php.dic',
-"    \ 'javascript':$HOME.'/.vim/dict/js.dic'
-"    \ }
-"
-"let g:neocomplcache_snippets_dir=$HOME.'.vim/snippets'
-"inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<TAB>"
-"inoremap <expr><C-TAB> pumvisible() ? "\<C-p>" : "\<TAB>"
-"
-"if !exists('g:neocomplcache_keywrod_patterns')
-"    let g:neocomplcache_keyword_patterns = {}
-"endif
-"let g:neocomplcache_keyword_patterns['default']='\h\w*'
-"imap <C-k>     <Plug>(neocomplcache_snippets_expand)
-"smap <C-k>     <Plug>(neocomplcache_snippets_expand)
-"inoremap <expr><C-g>     neocomplcache#undo_completion()
-"inoremap <expr><C-z>     neocomplcache#undo_completion()
-"inoremap <expr><C-l>     neocomplcache#complete_common_string()
-"inoremap <expr><CR> pumvisible() ? neocomplcache#close_popup() : "\<CR>"
-"inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-""inoremap <expr><space>  pumvisible() ? neocomplcache#close_popup() . "\<SPACE>" : "\<SPACE>"
-"inoremap <expr><C-h> neocomplcache#close_popup()."\<C-h>"
-""inoremap <expr><BS> neocomplcache#close_popup()."\<C-h>"
-"inoremap <expr><C-y>  neocomplcache#close_popup()
-"inoremap <expr><C-e>  neocomplcache#cancel_popup()
-"inoremap <expr><Enter> pumvisible() ? "\<C-Y>" : "\<Enter>"
-"autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-"autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-"autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-"autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-"autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-"autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
-""autocmd FileType java setlocal omnifunc=javacomplete#Complete
-"if !exists('g:neocomplcache_omni_patterns')
-"  let g:neocomplcache_omni_patterns = {}
-"endif
-"let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
-"let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-"let g:neocomplcache_omni_patterns.c = '\%(\.\|->\)\h\w*'
-"let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
-"function EnableOrDisableNeoCompleCache()
-"    if neocomplcache#is_enabled()
-"        execute 'NeoComplCacheDisable'
-"    else
-"        execute 'NeoComplCacheEnable'
-"    endif
-"endfunc
-"
-"map <Leader>neo :call EnableOrDisableNeoCompleCache()<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""
 " => statusline
@@ -536,21 +483,7 @@ let g:ycm_key_invoke_completion = '<C-Space>'
 " let g:ycm_semantic_triggers.c = ['->', '.', ' ', '(', '[', '&']
 let g:EclimCompletionMethod = 'omnifunc'
 
-"""""""""""""""""""""""""""""""""""""""""""""""""
-" => syntastic
-"""""""""""""""""""""""""""""""""""""""""""""""""
-let g:syntastic_error_symbol='✗'
-let g:syntastic_warning_symbol='⚠'
-let g:syntastic_ignore_files=[".*\.py$", ".*\.html$", ".*\.java$"]
-
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""
-" => jedi
-"""""""""""""""""""""""""""""""""""""""""""""""""
-let g:jedi#auto_vim_configuration = 0
-let g:jedi#popup_select_first = 0
-
+let g:ycm_rust_src_path = '/Users/wh/.cargo/rustc-1.15.1-src/src'
 
 """ IndentLine
 let g:indentLine_enabled = 1
@@ -567,7 +500,6 @@ autocmd FileType jquery set cms=//\ %s
 
 
 """ Unite
-
 noremap <leader>f :<C-u>Unite file<CR>
 noremap <leader>fs :<C-u>Unite -start-insert file<CR>
 noremap <leader>fb :<C-u>Unite file buffer<CR>
@@ -643,3 +575,13 @@ let g:sqlutil_wrap_long_lines = 1
 let g:sqlutil_wrap_function_calls = 1
 let g:sqlutil_align_keyword_right = 1
 let g:sqlutil_align_first_word = 0
+
+"" JavaScript
+let g:javascript_plugin_jsdoc = 1
+
+"" ALE
+let g:ale_javascript_eslint_use_global = 1
+let g:ale_python_pylint_options = "--init-hook='import sys; sys.path.append(\".\")'"
+let g:ale_linters = {
+            \    'python': ['flake8', 'mypy'],
+            \}
